@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Lenis from 'lenis';
 import OrbitMenu from './components/OrbitMenu';
-import HeroLoader from './components/HeroLoader';
-import RunwaySection from './components/RunwaySection';
+import HeroRunwayExperience from './components/HeroRunwayExperience';
 import ShopPage from './components/ShopPage';
 import AiStylist from './components/AiStylist';
 import CartDrawer from './components/CartDrawer';
@@ -43,6 +42,16 @@ export default function App() {
     };
   }, []);
 
+  // When either drawer is open, pause Lenis so inner content scrolls with 100% native fluidity
+  useEffect(() => {
+    if (!lenisRef.current) return;
+    if (isRunwayDrawerOpen || isCartOpen) {
+      lenisRef.current.stop();
+    } else {
+      lenisRef.current.start();
+    }
+  }, [isRunwayDrawerOpen, isCartOpen]);
+
   const handleRevealHeader = useCallback(() => {
     setShowHeader(true);
   }, []);
@@ -68,6 +77,12 @@ export default function App() {
     if (lenisRef.current) {
       if (target === '#' || target === '#home') {
         lenisRef.current.scrollTo(0, { duration: 1.2 });
+      } else if (target === '#runway') {
+        const container = document.getElementById('hero-runway-container');
+        if (container) {
+          const top = container.offsetTop + container.offsetHeight * 0.55;
+          lenisRef.current.scrollTo(top, { duration: 1.2 });
+        }
       } else {
         const el = document.querySelector(target);
         if (el) {
@@ -91,16 +106,12 @@ export default function App() {
         isDrawerOpen={isRunwayDrawerOpen || isCartOpen}
       />
 
-      {/* Hero Loader with Custom Center Look */}
       <main>
-        <HeroLoader
+        {/* Seamless Hero + 3D Runway Experience: Single Fixed Background & Smooth Fade Transition */}
+        <HeroRunwayExperience
           replayKey={replayKey}
           onRevealHeader={handleRevealHeader}
           onAnimationComplete={handleAnimationComplete}
-        />
-
-        {/* 3D Runway Section (Video Experience with 7 Cutouts & Hotspot Pins) */}
-        <RunwaySection
           onAddToCart={handleAddToCart}
           onOpenShop={() => scrollToSection('shop')}
           onOpenAiStylist={() => scrollToSection('ai-stylist')}

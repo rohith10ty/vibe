@@ -6,7 +6,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onRemoveItem, o
 
   return (
     <div
-      className={`fixed inset-0 z-50 transition-opacity duration-300 ${
+      className={`fixed inset-0 z-[100] transition-opacity duration-300 ${
         isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}
     >
@@ -15,12 +15,13 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onRemoveItem, o
 
       {/* Slide-over panel */}
       <div
-        className={`absolute top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col justify-between transition-transform duration-500 ease-out z-10 ${
+        data-lenis-prevent="true"
+        className={`absolute top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col justify-between transition-transform duration-500 ease-out z-[100] ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Header */}
-        <div className="p-6 border-b border-neutral-200 flex justify-between items-center bg-white sticky top-0 z-10">
+        <div className="p-5 sm:p-6 border-b border-neutral-200 flex justify-between items-center bg-white sticky top-0 z-20">
           <div className="flex items-center gap-2">
             <ShoppingBag className="w-5 h-5 text-[#ff1100]" />
             <h3 className="font-sans text-xl font-bold text-neutral-900">
@@ -29,15 +30,21 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onRemoveItem, o
           </div>
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-full border border-neutral-300 flex items-center justify-center hover:bg-neutral-100 transition-colors"
+            className="w-9 h-9 rounded-full bg-neutral-100 border border-neutral-300 flex items-center justify-center hover:bg-black hover:text-white transition-colors"
             aria-label="Close cart"
           >
-            <X className="w-4 h-4 text-neutral-700" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Item List */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        {/* Item List: Scrollable with native wheel prevent */}
+        <div
+          data-lenis-prevent="true"
+          data-lenis-prevent-wheel="true"
+          data-lenis-prevent-touch="true"
+          className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-3.5 min-h-0 overscroll-contain"
+          style={{ overscrollBehavior: 'contain', touchAction: 'pan-y' }}
+        >
           {cartItems.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-8">
               <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center mb-4">
@@ -52,9 +59,9 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onRemoveItem, o
             cartItems.map((item, idx) => (
               <div
                 key={`${item.id}-${idx}`}
-                className="flex gap-4 p-3 rounded-xl border border-neutral-200 bg-white hover:border-neutral-300 transition-colors"
+                className="flex gap-3.5 p-3 rounded-xl border border-neutral-200 bg-white hover:border-neutral-300 transition-colors"
               >
-                <div className="w-20 h-24 bg-neutral-100 rounded-lg overflow-hidden flex-shrink-0">
+                <div className="w-18 h-22 sm:w-20 sm:h-24 bg-neutral-100 rounded-lg overflow-hidden flex-shrink-0">
                   <img
                     src={item.images?.[0] || item.image}
                     alt={item.name}
@@ -98,7 +105,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onRemoveItem, o
 
         {/* Footer */}
         {cartItems.length > 0 && (
-          <div className="p-6 border-t border-neutral-200 bg-neutral-50 space-y-4">
+          <div className="p-5 sm:p-6 border-t border-neutral-200 bg-neutral-50 space-y-3.5 sticky bottom-0 z-20">
             <div className="flex justify-between items-baseline font-mono text-xs">
               <span className="uppercase text-neutral-500">Subtotal:</span>
               <span className="font-sans text-xl font-bold text-neutral-900">

@@ -129,7 +129,7 @@ body::-webkit-scrollbar {
   height: 100svh;
   overflow: hidden;
   isolation: isolate;
-  background-color: var(--c-jelly-bg, #f4f0e6);
+  background-color: transparent;
 }
 
 /* Veil overlay that covers everything initially then lifts */

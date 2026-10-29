@@ -257,14 +257,7 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
   }, [replayKey]);
 
   return (
-    <section ref={containerRef} className="stage relative select-none bg-[#f4f0e6]">
-      {/* Audix 91 Pastel Jelly Floating Gradient Blobs (Hero only) */}
-      <div className="jelly-blobs">
-        <div className="jelly-blob jelly-blob--1" />
-        <div className="jelly-blob jelly-blob--2" />
-        <div className="jelly-blob jelly-blob--3" />
-      </div>
-
+    <section ref={containerRef} className="stage relative select-none bg-transparent">
       {/* Top Left VIBE* Brand - Hero Only (disappears naturally when scrolling down) */}
       <div
         className={`absolute top-6 left-6 sm:top-8 sm:left-10 z-40 pointer-events-auto transition-opacity duration-700 ${

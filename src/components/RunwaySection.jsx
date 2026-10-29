@@ -17,6 +17,7 @@ export default function RunwaySection({
   onOpenShop,
   onOpenAiStylist,
   onDrawerStateChange,
+  isEmbedded = false,
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -97,35 +98,36 @@ export default function RunwaySection({
   return (
     <section
       id="runway"
-      className="relative min-h-[92vh] max-h-[960px] w-full bg-[#f4f0e6] py-8 sm:py-10 px-4 sm:px-8 lg:px-16 overflow-hidden select-none flex flex-col justify-between border-t border-neutral-200"
+      className={`relative w-full h-full max-h-screen overflow-hidden select-none flex flex-col justify-between py-2 sm:py-4 px-4 sm:px-8 lg:px-16 ${
+        isEmbedded ? 'bg-transparent' : 'bg-[#f4f0e6]'
+      }`}
     >
-      {/* Audix 91 Pastel Jelly Floating Gradient Blobs */}
-      <div className="jelly-blobs">
-        <div className="jelly-blob jelly-blob--1" />
-        <div className="jelly-blob jelly-blob--2" />
-        <div className="jelly-blob jelly-blob--3" />
-      </div>
+      {/* Background blobs (only if standalone) */}
+      {!isEmbedded && (
+        <div className="jelly-blobs">
+          <div className="jelly-blob jelly-blob--1" />
+          <div className="jelly-blob jelly-blob--2" />
+          <div className="jelly-blob jelly-blob--3" />
+        </div>
+      )}
 
-      {/* Top Header */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-2">
+      {/* Top Header: Compact Title & Action Badges */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full flex justify-between items-center pt-2 sm:pt-4 pb-1">
         <div>
-          <div className="flex items-center gap-2 mb-1 font-mono text-[11px] uppercase tracking-widest text-[#ff1100]">
+          <div className="flex items-center gap-1.5 mb-0.5 font-mono text-[10px] uppercase tracking-widest text-[#ff1100]">
             <span className="w-2 h-2 rounded-full bg-[#ff1100] animate-pulse"></span>
             <span>VIBE // 3D RUNWAY EDIT</span>
           </div>
-          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-neutral-900">
+          <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 leading-none">
             Try the Look.
           </h2>
-          <p className="font-mono text-xs text-neutral-600 uppercase tracking-wider mt-1">
-            Seven looks, styled head to toe. Tap a dot to explore the piece.
-          </p>
         </div>
 
         {/* Quick Action Badges */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={onOpenShop}
-            className="flex items-center gap-2 px-3.5 py-1.5 border border-neutral-300 rounded-full font-mono text-xs uppercase tracking-wider text-neutral-800 bg-white/80 hover:bg-black hover:text-white transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1 border border-neutral-300 rounded-full font-mono text-[11px] uppercase tracking-wider text-neutral-800 bg-white/80 hover:bg-black hover:text-white transition-all shadow-sm"
           >
             <ShoppingBag className="w-3.5 h-3.5 text-[#ff1100]" />
             <span>Catalogue (14)</span>
@@ -133,7 +135,7 @@ export default function RunwaySection({
 
           <button
             onClick={onOpenAiStylist}
-            className="flex items-center gap-2 px-3.5 py-1.5 bg-neutral-900 text-white rounded-full font-mono text-xs uppercase tracking-wider hover:bg-[#ff1100] transition-colors shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1 bg-neutral-900 text-white rounded-full font-mono text-[11px] uppercase tracking-wider hover:bg-[#ff1100] transition-colors shadow-sm"
           >
             <Sparkles className="w-3.5 h-3.5 text-[#ff1100]" />
             <span>AI Stylist</span>
@@ -141,15 +143,15 @@ export default function RunwaySection({
         </div>
       </div>
 
-      {/* 3D Runway Stage with Wide Models & Floating Arrows */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto h-[440px] sm:h-[480px] md:h-[510px] flex items-center justify-center my-auto">
+      {/* 3D Runway Stage: Models Brought Up & Scaled to Fit Inside Viewport */}
+      <div className="relative z-20 w-full max-w-7xl mx-auto h-[300px] sm:h-[340px] md:h-[370px] flex items-center justify-center my-auto">
         {/* Floor Horizon Line */}
-        <div className="absolute bottom-10 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-neutral-300/80 to-transparent pointer-events-none" />
+        <div className="absolute bottom-6 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-neutral-300/80 to-transparent pointer-events-none" />
 
-        {/* Floating Left and Right Navigation Buttons for immediate visibility */}
+        {/* Floating Left and Right Navigation Buttons */}
         <button
           onClick={handlePrev}
-          className="absolute left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/95 hover:bg-black text-neutral-800 hover:text-white backdrop-blur-md border border-neutral-300 shadow-xl flex items-center justify-center transition-all duration-300 active:scale-90 group"
+          className="absolute left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 hover:bg-black text-neutral-800 hover:text-white backdrop-blur-md border border-neutral-300 shadow-xl flex items-center justify-center transition-all duration-300 active:scale-90 group"
           aria-label="Previous Outfit"
           title="Previous Look (←)"
         >
@@ -158,34 +160,32 @@ export default function RunwaySection({
 
         <button
           onClick={handleNext}
-          className="absolute right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/95 hover:bg-black text-neutral-800 hover:text-white backdrop-blur-md border border-neutral-300 shadow-xl flex items-center justify-center transition-all duration-300 active:scale-90 group"
+          className="absolute right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/95 hover:bg-black text-neutral-800 hover:text-white backdrop-blur-md border border-neutral-300 shadow-xl flex items-center justify-center transition-all duration-300 active:scale-90 group"
           aria-label="Next Outfit"
           title="Next Look (→)"
         >
           <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
         </button>
 
-        {/* Runway Models Carousel: spaced wide across the screen matching the video */}
+        {/* Runway Models Carousel: wide spacing */}
         <div className="relative w-full h-full flex items-center justify-center">
           {RUNWAY_LOOKS.map((look, idx) => {
             const offset = idx - activeIndex;
             const isCenter = offset === 0;
             const absOffset = Math.abs(offset);
 
-            // Render visible models (-2 to +2 range)
             if (absOffset > 2) return null;
 
-            // Spaced wide across the runway
             const translateX =
               offset === 0
                 ? '0px'
                 : offset === 1
-                ? 'min(380px, 32vw)'
+                ? 'min(360px, 30vw)'
                 : offset === 2
-                ? 'min(760px, 58vw)'
+                ? 'min(720px, 56vw)'
                 : offset === -1
-                ? 'max(-380px, -32vw)'
-                : 'max(-760px, -58vw)';
+                ? 'max(-360px, -30vw)'
+                : 'max(-720px, -56vw)';
 
             const scale = isCenter ? 1.0 : absOffset === 1 ? 0.72 : 0.52;
             const zIndex = 30 - absOffset * 10;
@@ -203,11 +203,11 @@ export default function RunwaySection({
                   filter: `blur(${blur})`,
                   cursor: isCenter ? 'default' : 'pointer',
                 }}
-                className="absolute bottom-6 transition-all duration-700 ease-out flex flex-col items-center select-none"
+                className="absolute bottom-4 transition-all duration-700 ease-out flex flex-col items-center select-none"
               >
                 {/* Contact Floor Shadow under shoes */}
                 <div
-                  className="absolute -bottom-2 w-36 sm:w-44 h-6 rounded-full pointer-events-none transition-transform duration-500"
+                  className="absolute -bottom-2 w-32 sm:w-40 h-5 rounded-full pointer-events-none transition-transform duration-500"
                   style={{
                     background:
                       'radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.12) 50%, transparent 75%)',
@@ -216,7 +216,7 @@ export default function RunwaySection({
                 />
 
                 {/* Model Cutout Image */}
-                <div className="relative h-[340px] sm:h-[390px] md:h-[430px] aspect-[2/3] flex items-end justify-center">
+                <div className="relative h-[270px] sm:h-[310px] md:h-[340px] aspect-[2/3] flex items-end justify-center">
                   <img
                     src={look.cutoutImage}
                     alt={look.title}
@@ -240,12 +240,9 @@ export default function RunwaySection({
                             className="group absolute -translate-x-1/2 -translate-y-1/2 focus:outline-none"
                             title={`View ${piece.name}`}
                           >
-                            {/* Pulsing ring */}
                             <span className="absolute -inset-2 rounded-full bg-white/40 animate-ping opacity-75" />
-
-                            {/* Pin Circle with Number */}
                             <span
-                              className={`relative flex items-center justify-center w-7 h-7 rounded-full font-mono text-xs font-bold transition-all duration-300 shadow-xl ${
+                              className={`relative flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full font-mono text-xs font-bold transition-all duration-300 shadow-xl ${
                                 isPinActive
                                   ? 'bg-[#ff1100] text-white scale-125 ring-4 ring-[#ff1100]/30'
                                   : 'bg-white/95 text-black hover:bg-black hover:text-white hover:scale-110'
@@ -256,9 +253,9 @@ export default function RunwaySection({
 
                             {/* Floating Hover Label */}
                             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:flex flex-col items-center pointer-events-none whitespace-nowrap z-50">
-                              <div className="bg-black/95 backdrop-blur-md text-white text-[11px] font-mono uppercase px-3 py-1 rounded-md shadow-2xl">
+                              <div className="bg-black/95 backdrop-blur-md text-white text-[10px] font-mono uppercase px-2.5 py-1 rounded-md shadow-2xl">
                                 <span>{piece.name}</span>
-                                <span className="text-[#ff1100] ml-1.5 font-bold">
+                                <span className="text-[#ff1100] ml-1 font-bold">
                                   ₹{piece.price.toLocaleString('en-IN')}
                                 </span>
                               </div>
@@ -276,49 +273,59 @@ export default function RunwaySection({
         </div>
       </div>
 
-      {/* Look Selector Chips: Placed directly in place of "Tap a dot", featuring numbers AND names */}
-      <div className="relative z-30 max-w-7xl mx-auto w-full flex items-center justify-center gap-2 overflow-x-auto py-2.5 px-2 scrollbar-none">
+      {/* Interactive Callout Badge for Selected Outfit */}
+      <div className="relative z-30 flex flex-col items-center justify-center -mb-1">
+        <div className="bg-neutral-900 text-white px-3.5 py-1 rounded-full text-xs font-mono uppercase tracking-wider flex items-center gap-2 shadow-lg border border-neutral-700/80">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#ff1100] animate-pulse" />
+          <span className="text-[#ff1100] font-bold">LOOK {currentLook.lookNumber}</span>
+          <span className="text-neutral-500">/</span>
+          <span className="font-sans font-semibold text-neutral-100">{currentLook.title}</span>
+          <span className="hidden sm:inline text-neutral-400 text-[10px]">({currentLook.vibe})</span>
+        </div>
+        <div className="w-2 h-2 bg-neutral-900 rotate-45 -mt-1 shadow-sm" />
+      </div>
+
+      {/* Numbers ONLY Row for all 7 Outfits */}
+      <div className="relative z-30 flex items-center justify-center gap-2 sm:gap-3 py-1.5 px-2">
         {RUNWAY_LOOKS.map((look, i) => {
           const isActive = i === activeIndex;
           return (
             <button
               key={look.id}
               onClick={() => handleSelectLook(i)}
-              className={`flex items-center gap-2 py-1.5 px-3.5 rounded-full font-mono text-xs transition-all duration-300 whitespace-nowrap shadow-sm active:scale-95 ${
+              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full font-mono text-xs sm:text-sm font-bold flex items-center justify-center transition-all duration-300 shadow-sm active:scale-90 ${
                 isActive
-                  ? 'bg-neutral-900 text-white font-semibold ring-2 ring-neutral-900/30 scale-105'
-                  : 'bg-white/80 hover:bg-white text-neutral-700 border border-neutral-300/80 hover:border-black'
+                  ? 'bg-neutral-900 text-white ring-2 ring-neutral-900/40 ring-offset-2 scale-110'
+                  : 'bg-white/85 hover:bg-white text-neutral-700 border border-neutral-300/80 hover:border-black'
               }`}
+              title={`Select Look ${look.lookNumber}: ${look.title}`}
             >
-              <span className={isActive ? 'text-[#ff1100] font-bold' : 'text-neutral-500'}>
+              <span className={isActive ? 'text-[#ff1100]' : 'text-neutral-600'}>
                 {look.lookNumber}
-              </span>
-              <span className="font-sans font-medium text-xs">
-                {look.title}
               </span>
             </button>
           );
         })}
       </div>
 
-      {/* Bottom Information Row */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full flex justify-between items-center pt-2 border-t border-neutral-200/80 font-mono text-xs text-neutral-500">
-        <span className="uppercase tracking-widest text-[11px]">
-          LOOK {currentLook.lookNumber} OF 07 // {currentLook.vibe}
+      {/* Bottom Row */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full flex justify-between items-center px-4 pb-2 pt-1 border-t border-neutral-200/80 font-mono text-[11px] text-neutral-500">
+        <span className="uppercase tracking-widest text-[10px] sm:text-[11px]">
+          {currentLook.lookNumber} OF 07 // {currentLook.category}
         </span>
         <button
           onClick={() => {
             setActivePinIndex(0);
             setDrawerOpen(true);
           }}
-          className="flex items-center gap-1.5 text-neutral-800 hover:text-[#ff1100] uppercase tracking-wider text-[11px] font-semibold transition-colors"
+          className="flex items-center gap-1.5 text-neutral-900 hover:text-[#ff1100] uppercase tracking-wider font-semibold transition-colors text-[10px] sm:text-[11px]"
         >
-          <span>Open Lookbook Showcase</span>
+          <span>Lookbook Pieces ({currentLook.pieces.length})</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
 
-      {/* Side Slide-Over Drawer: Z-INDEX 100 so Menu & Bag sit BEHIND it */}
+      {/* Side Slide-Over Drawer: Z-INDEX 100 with Native Scroll Prevent */}
       <div
         className={`fixed inset-0 z-[100] transition-opacity duration-300 ${
           drawerOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
@@ -330,8 +337,9 @@ export default function RunwaySection({
           className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         />
 
-        {/* Sliding Lookbook Panel */}
+        {/* Sliding Lookbook Panel with Lenis prevent */}
         <div
+          data-lenis-prevent="true"
           className={`absolute top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col justify-between transition-transform duration-500 ease-out z-[100] ${
             drawerOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
@@ -355,9 +363,15 @@ export default function RunwaySection({
             </button>
           </div>
 
-          {/* Drawer Middle: Scrollable 2 Pieces (1 Top & 1 Bottom) */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3.5 min-h-0">
-            <div className="flex justify-between items-center text-[11px] font-mono text-neutral-500 uppercase tracking-wider pb-1">
+          {/* Drawer Middle: Scrollable 2 Pieces (1 Top & 1 Bottom) with data-lenis-prevent */}
+          <div
+            data-lenis-prevent="true"
+            data-lenis-prevent-wheel="true"
+            data-lenis-prevent-touch="true"
+            className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 min-h-0 overscroll-contain"
+            style={{ overscrollBehavior: 'contain', touchAction: 'pan-y' }}
+          >
+            <div className="flex justify-between items-center text-[10px] font-mono text-neutral-500 uppercase tracking-wider pb-0.5">
               <span>Included Pieces ({currentLook.pieces.length})</span>
               <span>100% Authentic H&M</span>
             </div>
@@ -422,7 +436,6 @@ export default function RunwaySection({
 
                       {/* Size Selector and Add Button */}
                       <div className="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between gap-1.5">
-                        {/* Size pills */}
                         <div className="flex items-center gap-1">
                           {piece.sizes.map((sz) => (
                             <button
@@ -439,7 +452,6 @@ export default function RunwaySection({
                           ))}
                         </div>
 
-                        {/* Add single piece button */}
                         <button
                           onClick={() => handleAddSinglePiece(piece)}
                           className={`flex items-center gap-1 px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider transition-all ${
