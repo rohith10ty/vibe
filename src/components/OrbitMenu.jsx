@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
 
-export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart, onNavigate }) {
+export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart, onNavigate, isDrawerOpen = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef(null);
   const menuRef = useRef(null);
@@ -152,22 +152,18 @@ export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart,
 
   return (
     <>
-      {/* Header bar with Brand on Left and Bag + Gooey Toggle on Right */}
+      {/* Header bar with Bag + Gooey Toggle (VIBE logo stays strictly in Hero section) */}
       <header
-        className={`orbit-header transition-opacity duration-700 ${
+        className={`orbit-header transition-all duration-500 ${
           isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        <a
-          href="#"
-          onClick={(e) => handleLinkClick(e, '#')}
-          className="orbit-brand select-none hover:opacity-85 transition-opacity"
+        {/* Right Action Icons: Shopping Bag + Gooey Toggle (fades away when side drawer is open) */}
+        <div
+          className={`flex items-center gap-3 sm:gap-4 pointer-events-auto ml-auto transition-all duration-300 ${
+            isDrawerOpen ? 'opacity-0 pointer-events-none -translate-y-4' : 'opacity-100 pointer-events-auto translate-y-0'
+          }`}
         >
-          VIBE<span>*</span>
-        </a>
-
-        {/* Right Action Icons: Shopping Bag + Gooey Toggle */}
-        <div className="flex items-center gap-3 sm:gap-4 pointer-events-auto ml-auto">
           {/* Shopping Bag Button */}
           <button
             onClick={onOpenCart}

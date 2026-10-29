@@ -21,7 +21,7 @@ export const RUNWAY_LOOKS = [
         originalPrice: 2999,
         sizes: ['S', 'M', 'L', 'XL'],
         images: [
-          '/costume-pieces/black-pant-red-checks-tshirt/0b029e7858d0c38488f49bea9f76473b9f06c692.avif',
+          '/costume-pieces/black-pant-red-checks-tshirt/d4fcc4bf1bd94e8cd3b19f6171e5a6c031e497a5.avif',
           '/costume-pieces/black-pant-red-checks-tshirt/f184b1c83c9f8e6b360c746d473a841b3e6b350c.avif'
         ],
         pin: { top: '36%', left: '50%' },
@@ -37,7 +37,7 @@ export const RUNWAY_LOOKS = [
         originalPrice: 3499,
         sizes: ['30', '32', '34', '36'],
         images: [
-          '/costume-pieces/black-pant-red-checks-tshirt/d4fcc4bf1bd94e8cd3b19f6171e5a6c031e497a5.avif',
+          '/costume-pieces/black-pant-red-checks-tshirt/0b029e7858d0c38488f49bea9f76473b9f06c692.avif',
           '/costume-pieces/black-pant-red-checks-tshirt/ce40e09d2cd4300eaa23e4181a4eef836d323f42.avif'
         ],
         pin: { top: '68%', left: '50%' },
@@ -75,7 +75,7 @@ export const RUNWAY_LOOKS = [
         sizes: ['S', 'M', 'L', 'XL'],
         images: [
           '/costume-pieces/brown-pant-and-grey-sweatshirt/508f6215a19756e9c77f895b4f9b697e9c3b8ffc.avif',
-          '/costume-pieces/brown-pant-and-grey-sweatshirt/aee0651d6f69796741f7258ad694705b381c6436.avif'
+          '/costume-pieces/brown-pant-and-grey-sweatshirt/15e5919e8fbb9781504a95dc9c2ddeb21a0e82a2.avif'
         ],
         pin: { top: '35%', left: '50%' },
         description: 'Cotton-blend sweatshirt with stand-up collar, silver half-zip, and dropped shoulders.'
@@ -90,8 +90,8 @@ export const RUNWAY_LOOKS = [
         originalPrice: 3999,
         sizes: ['30', '32', '34', '36'],
         images: [
-          '/costume-pieces/brown-pant-and-grey-sweatshirt/15e5919e8fbb9781504a95dc9c2ddeb21a0e82a2.avif',
-          '/costume-pieces/brown-pant-and-grey-sweatshirt/c6ba95364d2a56b9760042cf7a863555d30ecdb5.avif'
+          '/costume-pieces/brown-pant-and-grey-sweatshirt/c6ba95364d2a56b9760042cf7a863555d30ecdb5.avif',
+          '/costume-pieces/brown-pant-and-grey-sweatshirt/aee0651d6f69796741f7258ad694705b381c6436.avif'
         ],
         pin: { top: '68%', left: '50%' },
         description: 'Tactile ribbed corduroy trousers with elasticated back waist and straight legs.'
@@ -151,151 +151,151 @@ export const RUNWAY_LOOKS = [
       }
     ],
     aiStyling: {
-      harmonyScore: 97,
-      colorPalette: ['#e51a24', '#151d3b'],
-      rationale: 'Striking primary color blocking that commands visual presence in modern urban settings.',
-      accessories: ['Silver carabiner keychain', 'Crossbody nylon bag'],
-      stylingTip: 'Let the extra inseam of the baggy denim drape naturally over chunky retro sneakers.'
+      harmonyScore: 94,
+      colorPalette: ['#d11a2a', '#1e2838'],
+      rationale: 'Complementary color tension between saturated scarlet top and deep indigo denim.',
+      accessories: ['Embroidered dad cap', 'Skate socks'],
+      stylingTip: 'Stack the baggy denim cuffs over chunky low-profile retro sneakers.'
     }
   },
   {
     id: 'look-4',
     lookNumber: '04',
-    title: 'Monochrome Sartorial',
-    subtitle: 'Atelier Evening Lounge',
+    title: 'Sartorial Tailored Monolith',
+    subtitle: 'Contemporary Formal',
     category: 'Formal',
-    vibe: 'Modern Tailored • Luxury Party',
-    occasion: 'Cocktail / Evening',
+    vibe: 'Modern Tailored • Avant-Garde',
+    occasion: 'Evening Gala',
     cutoutImage: '/runway-cutouts/look-4-green-suit.png',
     originalImage: '/complete-look/de325ccf0490f529eb162ed71023a0c95e23b78f.avif',
-    description: 'An emerald sartorial ensemble combining draped silk-finish twill with tailored wide dress trousers.',
+    description: 'Elevated monochrome sartorial set in rich army olive with subtle contrast sleeve seam piping.',
     pieces: [
       {
         id: 'p4-top',
         brand: 'H&M',
-        name: 'Relaxed Fit Resort Shirt',
+        name: 'Resort Collar Tonal Overshirt',
         category: 'Tops',
-        color: 'Deep Olive Green',
-        price: 2499,
-        originalPrice: 3299,
+        color: 'Olive Khaki',
+        price: 3299,
+        originalPrice: 4299,
         sizes: ['S', 'M', 'L', 'XL'],
         images: [
-          '/costume-pieces/green-outfit/3bd68b82c6db5fa5f6a4c932b90e5c95cf36c35f.avif',
-          '/costume-pieces/green-outfit/4fc8bf92c75b05223e462e037f00ac3bebf22ea8.avif'
+          '/costume-pieces/green-outfit/fe361fdee52d0d7622c662721bfa6a44a656abc5.avif',
+          '/costume-pieces/green-outfit/de325ccf0490f529eb162ed71023a0c95e23b78f.avif'
         ],
         pin: { top: '35%', left: '50%' },
-        description: 'Fluid drape woven shirt with resort camp collar, piped trim, and straight-cut hem.'
+        description: 'Fluid drape resort overshirt featuring an open Cuban collar and braided white seam trim.'
       },
       {
         id: 'p4-bottom',
         brand: 'H&M',
-        name: 'Wide-Leg Pleated Trousers',
+        name: 'Wide Tailored Suit Trousers',
         category: 'Bottoms',
-        color: 'Olive Green',
+        color: 'Olive Khaki',
         price: 3499,
         originalPrice: 4499,
         sizes: ['30', '32', '34', '36'],
         images: [
-          '/costume-pieces/green-outfit/bca4be478b2dd520c2ae4bb11c6ea9b911766cc9.avif',
-          '/costume-pieces/green-outfit/fe361fdee52d0d7622c662721bfa6a44a656abc5.avif'
+          '/costume-pieces/green-outfit/3bd68b82c6db5fa5f6a4c932b90e5c95cf36c35f.avif',
+          '/costume-pieces/green-outfit/bca4be478b2dd520c2ae4bb11c6ea9b911766cc9.avif'
         ],
         pin: { top: '68%', left: '50%' },
-        description: 'Tailored trousers in woven fabric with crisp double front pleats and side slash pockets.'
+        description: 'High-waisted wide-leg tailored trousers with clean front pleats and side slash pockets.'
       }
     ],
     aiStyling: {
       harmonyScore: 99,
-      colorPalette: ['#1e3b2e', '#2c5341'],
-      rationale: 'Tonal emerald palette providing seamless vertical elongation suitable for high-end party and formal wear.',
-      accessories: ['Gold signet ring', 'Structured leather clutch'],
-      stylingTip: 'Tuck shirt loosely into the waistband to accentuate the clean tailored front pleats.'
+      colorPalette: ['#52563e', '#1c1c1c'],
+      rationale: 'Monochromatic head-to-toe tonal saturation creates an elongated, statuesque editorial profile.',
+      accessories: ['Polished black leather dress belt', 'Minimalist watch'],
+      stylingTip: 'Tuck in the overshirt crisply and buckle with a silver-accented belt for formal events.'
     }
   },
   {
     id: 'look-5',
     lookNumber: '05',
-    title: 'The City Harrington',
-    subtitle: 'London Sartorial Street',
+    title: 'Utility Workwear Blend',
+    subtitle: 'Industrial Atelier',
     category: 'Casual',
-    vibe: 'Classic Outerwear • Transitional',
-    occasion: 'Office Casual',
+    vibe: 'Workwear • Clean Americana',
+    occasion: 'Creative Studio',
     cutoutImage: '/runway-cutouts/look-5-jacket-jeans.png',
-    originalImage: '/complete-look/e8457929576eab9f16d3393e94b4dd1e3254896c.avif',
-    description: 'Timeless transitional outerwear with a sand beige Harrington jacket layered over structured mid-blue denim.',
+    originalImage: '/complete-look/463f44c55d04c09e20e754c102eabd94369d3efe.avif',
+    description: 'Rugged yet refined utility: sand twill canvas jacket styled over relaxed mid-blue denim.',
     pieces: [
       {
         id: 'p5-top',
         brand: 'H&M',
-        name: 'Cotton Twill Harrington Jacket',
+        name: 'Twill Canvas Work Jacket',
         category: 'Tops',
         color: 'Sand Beige',
         price: 3999,
         originalPrice: 4999,
         sizes: ['S', 'M', 'L', 'XL'],
         images: [
-          '/costume-pieces/jacket-with-jeans/463f44c55d04c09e20e754c102eabd94369d3efe.avif',
-          '/costume-pieces/jacket-with-jeans/c09451dff6e05f5096133198bb1b9b258309ec0c.avif'
+          '/costume-pieces/jacket-with-jeans/d9b66058549428396ba6019832b3adbb2f745583.avif',
+          '/costume-pieces/jacket-with-jeans/e8457929576eab9f16d3393e94b4dd1e3254896c.avif'
         ],
         pin: { top: '35%', left: '50%' },
-        description: 'Classic Harrington jacket in sturdy cotton twill with stand collar, zip front, and diagonal welt pockets.'
+        description: 'Sturdy cotton twill jacket with contrast brown corduroy collar, metal zip, and welt hand pockets.'
       },
       {
         id: 'p5-bottom',
         brand: 'H&M',
-        name: 'Regular Straight Fit Jeans',
+        name: 'Regular Straight Jeans',
         category: 'Bottoms',
-        color: 'Medium Blue Denim',
-        price: 2699,
+        color: 'Mid Blue Wash',
+        price: 2799,
         originalPrice: 3499,
         sizes: ['30', '32', '34', '36'],
         images: [
-          '/costume-pieces/jacket-with-jeans/d9b66058549428396ba6019832b3adbb2f745583.avif',
+          '/costume-pieces/jacket-with-jeans/c09451dff6e05f5096133198bb1b9b258309ec0c.avif',
           '/costume-pieces/jacket-with-jeans/f1270ea96b57ee7adffa7676230a8f5c23c815f3.avif'
         ],
         pin: { top: '68%', left: '50%' },
-        description: 'Classic 5-pocket jeans in washed cotton denim with a straight fit from hip to hem.'
+        description: 'Classic mid-rise straight jeans in rinsed mid-blue denim with subtle fading across the thighs.'
       }
     ],
     aiStyling: {
       harmonyScore: 97,
-      colorPalette: ['#d7cec1', '#375783'],
-      rationale: 'Earthy beige twill softens the workwear blue denim for an elevated everyday uniform.',
-      accessories: ['Minimalist stainless steel watch', 'Leather card holder'],
-      stylingTip: 'Leave the Harrington zipper half-drawn to showcase a crisp white interior tee.'
+      colorPalette: ['#d5c5b2', '#4b6b94'],
+      rationale: 'Earthy neutral jacket balances the cool blue undertones of authentic vintage washed denim.',
+      accessories: ['Heavy leather key fob', 'Canvas messenger bag'],
+      stylingTip: 'Fasten only the center zipper slider and let a crisp white undershirt peek out.'
     }
   },
   {
     id: 'look-6',
     lookNumber: '06',
-    title: 'Riviera Resort Linen',
-    subtitle: 'Mediterranean Summer Edit',
+    title: 'Resort Linen Breeze',
+    subtitle: 'Mediterranean Summer',
     category: 'Traditional',
-    vibe: 'Sun-Drenched • Coastal Elegance',
-    occasion: 'Resort / Summer',
+    vibe: 'Resort Chic • Pure Linen',
+    occasion: 'Summer Getaway',
     cutoutImage: '/runway-cutouts/look-6-blue-shirt.png',
     originalImage: '/complete-look/1ed9582ef14dae11ed9d61eff518fd831b56321e.avif',
-    description: 'Crisp sky blue linen paired with relaxed ecru trousers for a breezy, coastal aesthetic.',
+    description: 'Breezy luxury: Mediterranean cerulean blue poplin shirt paired with relaxed ecru linen trousers.',
     pieces: [
       {
         id: 'p6-top',
         brand: 'H&M',
-        name: 'Relaxed Fit Linen-Blend Shirt',
+        name: 'Relaxed Fit Poplin Shirt',
         category: 'Tops',
         color: 'Sky Blue',
         price: 2299,
         originalPrice: 2999,
         sizes: ['S', 'M', 'L', 'XL'],
         images: [
-          '/costume-pieces/white-pant-blue-shirt/7fad0aa4fe6f50df340a943ee2fa2820b6aa42fd.avif',
-          '/costume-pieces/white-pant-blue-shirt/b5638e02178c9e8519991762c48a911a9731d3e7.avif'
+          '/costume-pieces/white-pant-blue-shirt/1ed9582ef14dae11ed9d61eff518fd831b56321e.avif',
+          '/costume-pieces/white-pant-blue-shirt/7fad0aa4fe6f50df340a943ee2fa2820b6aa42fd.avif'
         ],
         pin: { top: '35%', left: '50%' },
-        description: 'Breathable linen-cotton blend shirt with resort collar and rounded hem.'
+        description: 'Airy cotton poplin shirt with relaxed point collar, chest pocket, and smooth mother-of-pearl buttons.'
       },
       {
         id: 'p6-bottom',
         brand: 'H&M',
-        name: 'Relaxed Linen-Blend Trousers',
+        name: 'Linen-Blend Pull-On Trousers',
         category: 'Bottoms',
         color: 'Ecru White',
         price: 2999,
@@ -303,7 +303,7 @@ export const RUNWAY_LOOKS = [
         sizes: ['30', '32', '34', '36'],
         images: [
           '/costume-pieces/white-pant-blue-shirt/bbe2100712223d4d72fc834a8e283d51ddfeae34.avif',
-          '/costume-pieces/white-pant-blue-shirt/3f5abf46ccb960a834f5a7d73f0153fee45b1236.avif'
+          '/costume-pieces/white-pant-blue-shirt/b5638e02178c9e8519991762c48a911a9731d3e7.avif'
         ],
         pin: { top: '68%', left: '50%' },
         description: 'Pull-on trousers in an airy linen and cotton weave with an elasticated drawstring waist.'
@@ -339,7 +339,7 @@ export const RUNWAY_LOOKS = [
         originalPrice: 2499,
         sizes: ['S', 'M', 'L', 'XL'],
         images: [
-          '/costume-pieces/white-shirt-and-blue-jeans/505ee8abb3f841f049dbb6dcddc235c9a5656dcf.avif',
+          '/costume-pieces/white-shirt-and-blue-jeans/50f7627b03ae68adee94a126d27bda07fb17c830.avif',
           '/costume-pieces/white-shirt-and-blue-jeans/60171dac234e500f4fd27bf1dcb3fb98136ec759.avif'
         ],
         pin: { top: '35%', left: '50%' },
@@ -355,8 +355,7 @@ export const RUNWAY_LOOKS = [
         originalPrice: 4499,
         sizes: ['30', '32', '34', '36'],
         images: [
-          '/costume-pieces/white-shirt-and-blue-jeans/50f7627b03ae68adee94a126d27bda07fb17c830.avif',
-          '/costume-pieces/white-shirt-and-blue-jeans/752ef9009fa543e0b8de3baa733d8866c215ce17.avif',
+          '/costume-pieces/white-shirt-and-blue-jeans/505ee8abb3f841f049dbb6dcddc235c9a5656dcf.avif',
           '/costume-pieces/white-shirt-and-blue-jeans/ad501c7584c23d9ae0edf08e6f2f85386c6cbb28.avif'
         ],
         pin: { top: '68%', left: '50%' },
@@ -377,6 +376,7 @@ export const RUNWAY_LOOKS = [
 export const ALL_PRODUCTS = RUNWAY_LOOKS.flatMap((look) =>
   look.pieces.map((piece) => ({
     ...piece,
+    image: piece.images[0],
     lookTitle: look.title,
     lookNumber: look.lookNumber,
     lookId: look.id,

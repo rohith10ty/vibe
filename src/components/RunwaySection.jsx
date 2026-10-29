@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ChevronLeft,
   ChevronRight,
@@ -8,36 +8,32 @@ import {
   ShoppingBag,
   Sparkles,
   ArrowRight,
-  Play,
-  Pause,
   Layers
 } from 'lucide-react';
 import { RUNWAY_LOOKS } from '../data/fashionData';
 
-export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist }) {
+export default function RunwaySection({
+  onAddToCart,
+  onOpenShop,
+  onOpenAiStylist,
+  onDrawerStateChange,
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [activePinIndex, setActivePinIndex] = useState(null);
   const [selectedSizes, setSelectedSizes] = useState({});
   const [addedItemIds, setAddedItemIds] = useState([]);
   const [fullBundleAdded, setFullBundleAdded] = useState(false);
   const [activeImageIndices, setActiveImageIndices] = useState({});
-  const autoPlayRef = useRef(null);
 
   const currentLook = RUNWAY_LOOKS[activeIndex];
 
-  // Auto-play runway loop
+  // Notify parent of drawer state so header buttons can go behind drawer
   useEffect(() => {
-    if (isPlaying && !drawerOpen) {
-      autoPlayRef.current = setInterval(() => {
-        setActiveIndex((prev) => (prev + 1) % RUNWAY_LOOKS.length);
-      }, 4000);
-    } else {
-      clearInterval(autoPlayRef.current);
+    if (onDrawerStateChange) {
+      onDrawerStateChange(drawerOpen);
     }
-    return () => clearInterval(autoPlayRef.current);
-  }, [isPlaying, drawerOpen]);
+  }, [drawerOpen, onDrawerStateChange]);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? RUNWAY_LOOKS.length - 1 : prev - 1));
@@ -57,11 +53,6 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
   const handlePinClick = (e, pinIdx) => {
     e.stopPropagation();
     setActivePinIndex(pinIdx);
-    setDrawerOpen(true);
-  };
-
-  const handleOpenDrawer = () => {
-    setActivePinIndex(0);
     setDrawerOpen(true);
   };
 
@@ -106,12 +97,13 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
   return (
     <section
       id="runway"
-      className="relative min-h-[90vh] max-h-[920px] w-full bg-[#f6f6f7] py-8 sm:py-10 px-4 sm:px-8 lg:px-16 overflow-hidden select-none flex flex-col justify-between border-t border-neutral-200"
+      className="relative min-h-[92vh] max-h-[960px] w-full bg-[#f4f0e6] py-8 sm:py-10 px-4 sm:px-8 lg:px-16 overflow-hidden select-none flex flex-col justify-between border-t border-neutral-200"
     >
-      {/* Background Studio Lighting & Floor Vignette */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[85vw] h-[45vh] bg-gradient-to-b from-white/95 via-white/40 to-transparent blur-3xl" />
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-neutral-300/40 to-transparent" />
+      {/* Audix 91 Pastel Jelly Floating Gradient Blobs */}
+      <div className="jelly-blobs">
+        <div className="jelly-blob jelly-blob--1" />
+        <div className="jelly-blob jelly-blob--2" />
+        <div className="jelly-blob jelly-blob--3" />
       </div>
 
       {/* Top Header */}
@@ -152,7 +144,7 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
       {/* 3D Runway Stage with Wide Models & Floating Arrows */}
       <div className="relative z-20 w-full max-w-7xl mx-auto h-[440px] sm:h-[480px] md:h-[510px] flex items-center justify-center my-auto">
         {/* Floor Horizon Line */}
-        <div className="absolute bottom-10 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-neutral-300 to-transparent pointer-events-none" />
+        <div className="absolute bottom-10 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-neutral-300/80 to-transparent pointer-events-none" />
 
         {/* Floating Left and Right Navigation Buttons for immediate visibility */}
         <button
@@ -183,7 +175,7 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
             // Render visible models (-2 to +2 range)
             if (absOffset > 2) return null;
 
-            // Spaced much further away across the runway to match the video
+            // Spaced wide across the runway
             const translateX =
               offset === 0
                 ? '0px'
@@ -278,129 +270,95 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
                     </div>
                   )}
                 </div>
-
-                {/* Subtitle prompt under center model */}
-                {isCenter && (
-                  <button
-                    onClick={handleOpenDrawer}
-                    className="mt-2.5 flex items-center gap-1.5 px-4 py-1.5 bg-black/85 hover:bg-black text-white font-mono text-[11px] uppercase tracking-wider rounded-full shadow-md transition-all active:scale-95"
-                  >
-                    <span>Tap a dot to shop the look</span>
-                    <span className="text-[#ff1100] font-bold">({look.pieces.length} items)</span>
-                  </button>
-                )}
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* Bottom Bar: Stepper Navigation + AutoPlay Controls */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col md:flex-row justify-between items-center gap-3 pt-2 border-t border-neutral-200">
-        {/* Navigation Arrows & Play Toggle */}
-        <div className="flex items-center gap-2.5">
-          <button
-            onClick={handlePrev}
-            className="w-10 h-10 rounded-full border border-neutral-300 bg-white hover:bg-black hover:text-white flex items-center justify-center transition-all active:scale-90 shadow-sm"
-            aria-label="Previous look"
-            title="Previous Look (←)"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="w-10 h-10 rounded-full border border-neutral-300 bg-white hover:bg-black hover:text-white flex items-center justify-center transition-all active:scale-90 shadow-sm"
-            aria-label={isPlaying ? 'Pause runway' : 'Play runway'}
-            title={isPlaying ? 'Pause Runway' : 'Auto-Play Runway'}
-          >
-            {isPlaying ? <Pause className="w-4 h-4 text-[#ff1100]" /> : <Play className="w-4 h-4 ml-0.5" />}
-          </button>
-
-          <button
-            onClick={handleNext}
-            className="w-10 h-10 rounded-full border border-neutral-300 bg-white hover:bg-black hover:text-white flex items-center justify-center transition-all active:scale-90 shadow-sm"
-            aria-label="Next look"
-            title="Next Look (→)"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* Stepper Timeline Navigation */}
-        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto max-w-full pb-1 sm:pb-0 scrollbar-none font-mono text-xs uppercase tracking-wider">
-          {RUNWAY_LOOKS.map((look, i) => (
+      {/* Look Selector Chips: Placed directly in place of "Tap a dot", featuring numbers AND names */}
+      <div className="relative z-30 max-w-7xl mx-auto w-full flex items-center justify-center gap-2 overflow-x-auto py-2.5 px-2 scrollbar-none">
+        {RUNWAY_LOOKS.map((look, i) => {
+          const isActive = i === activeIndex;
+          return (
             <button
               key={look.id}
               onClick={() => handleSelectLook(i)}
-              className={`flex items-center gap-1.5 transition-all py-1 px-3 rounded-full ${
-                i === activeIndex
-                  ? 'bg-black text-white font-semibold'
-                  : 'text-neutral-500 hover:text-neutral-900 bg-neutral-200/60'
+              className={`flex items-center gap-2 py-1.5 px-3.5 rounded-full font-mono text-xs transition-all duration-300 whitespace-nowrap shadow-sm active:scale-95 ${
+                isActive
+                  ? 'bg-neutral-900 text-white font-semibold ring-2 ring-neutral-900/30 scale-105'
+                  : 'bg-white/80 hover:bg-white text-neutral-700 border border-neutral-300/80 hover:border-black'
               }`}
             >
-              <span>{look.lookNumber}</span>
-              {i === activeIndex && (
-                <span className="hidden md:inline font-sans font-medium text-neutral-200">
-                  {look.title}
-                </span>
-              )}
+              <span className={isActive ? 'text-[#ff1100] font-bold' : 'text-neutral-500'}>
+                {look.lookNumber}
+              </span>
+              <span className="font-sans font-medium text-xs">
+                {look.title}
+              </span>
             </button>
-          ))}
-        </div>
-
-        {/* Look Meta Information */}
-        <div className="text-right hidden sm:block">
-          <span className="font-mono text-xs text-neutral-400 uppercase tracking-widest block">
-            LOOK {currentLook.lookNumber} OF 07
-          </span>
-          <span className="font-sans text-xs font-semibold text-neutral-800">
-            {currentLook.vibe}
-          </span>
-        </div>
+          );
+        })}
       </div>
 
-      {/* Side Slide-Over Drawer: "In This Look" Showcase (Exactly 2 Pieces) */}
+      {/* Bottom Information Row */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full flex justify-between items-center pt-2 border-t border-neutral-200/80 font-mono text-xs text-neutral-500">
+        <span className="uppercase tracking-widest text-[11px]">
+          LOOK {currentLook.lookNumber} OF 07 // {currentLook.vibe}
+        </span>
+        <button
+          onClick={() => {
+            setActivePinIndex(0);
+            setDrawerOpen(true);
+          }}
+          className="flex items-center gap-1.5 text-neutral-800 hover:text-[#ff1100] uppercase tracking-wider text-[11px] font-semibold transition-colors"
+        >
+          <span>Open Lookbook Showcase</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </button>
+      </div>
+
+      {/* Side Slide-Over Drawer: Z-INDEX 100 so Menu & Bag sit BEHIND it */}
       <div
-        className={`fixed inset-0 z-50 transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[100] transition-opacity duration-300 ${
           drawerOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
         {/* Backdrop */}
         <div
           onClick={() => setDrawerOpen(false)}
-          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         />
 
         {/* Sliding Lookbook Panel */}
         <div
-          className={`absolute top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col justify-between transition-transform duration-500 ease-out z-10 ${
+          className={`absolute top-0 right-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col justify-between transition-transform duration-500 ease-out z-[100] ${
             drawerOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          {/* Drawer Top Header */}
-          <div className="p-5 border-b border-neutral-200 flex justify-between items-center bg-white sticky top-0 z-10">
+          {/* Drawer Top Header with clean Close Button */}
+          <div className="p-4 sm:p-5 border-b border-neutral-200 flex justify-between items-center bg-white sticky top-0 z-20">
             <div>
-              <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-[#ff1100]">
+              <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-[#ff1100]">
                 <span>LOOK {currentLook.lookNumber} // COMPLETE OUTFIT</span>
               </div>
-              <h3 className="font-sans text-xl font-bold text-neutral-900 mt-0.5">
+              <h3 className="font-sans text-lg font-bold text-neutral-900 mt-0.5">
                 {currentLook.title}
               </h3>
             </div>
             <button
               onClick={() => setDrawerOpen(false)}
-              className="w-8 h-8 rounded-full border border-neutral-300 flex items-center justify-center hover:bg-neutral-100 transition-colors"
+              className="w-9 h-9 rounded-full bg-neutral-100 border border-neutral-300 flex items-center justify-center hover:bg-black hover:text-white transition-colors"
               aria-label="Close drawer"
             >
-              <X className="w-4 h-4 text-neutral-600" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Drawer Middle: Curated 2 Pieces (Top & Bottom) */}
-          <div className="flex-1 overflow-y-auto p-5 space-y-4">
-            <div className="flex justify-between items-center text-xs font-mono text-neutral-500 uppercase tracking-wider pb-1">
-              <span>Pieces in this Look ({currentLook.pieces.length})</span>
+          {/* Drawer Middle: Scrollable 2 Pieces (1 Top & 1 Bottom) */}
+          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3.5 min-h-0">
+            <div className="flex justify-between items-center text-[11px] font-mono text-neutral-500 uppercase tracking-wider pb-1">
+              <span>Included Pieces ({currentLook.pieces.length})</span>
               <span>100% Authentic H&M</span>
             </div>
 
@@ -414,15 +372,15 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
               return (
                 <div
                   key={piece.id}
-                  className={`p-3.5 rounded-2xl border transition-all duration-300 ${
+                  className={`p-3 rounded-xl border transition-all duration-300 ${
                     isHighlighted
-                      ? 'border-[#ff1100] bg-red-50/20 shadow-md ring-1 ring-[#ff1100]/20'
+                      ? 'border-[#ff1100] bg-red-50/20 shadow-sm ring-1 ring-[#ff1100]/30'
                       : 'border-neutral-200 bg-white hover:border-neutral-300'
                   }`}
                 >
-                  <div className="flex gap-3.5">
-                    {/* Piece Image with Multi-Angle Cycler */}
-                    <div className="relative w-20 sm:w-24 aspect-[3/4] bg-neutral-100 rounded-xl overflow-hidden flex-shrink-0 group/img">
+                  <div className="flex gap-3">
+                    {/* Compact Image with Multi-Angle Switcher */}
+                    <div className="relative w-18 sm:w-20 aspect-[3/4] bg-neutral-100 rounded-lg overflow-hidden flex-shrink-0 group/img">
                       <img
                         src={activeImg}
                         alt={piece.name}
@@ -431,46 +389,46 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
                       {piece.images.length > 1 && (
                         <button
                           onClick={() => handleCycleImage(piece.id, piece.images.length)}
-                          className="absolute bottom-1.5 right-1.5 px-1.5 py-0.5 rounded bg-black/75 text-white text-[9px] font-mono flex items-center gap-0.5 hover:bg-black transition-colors"
-                          title="View next angle"
+                          className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-black/80 text-white text-[9px] font-mono flex items-center gap-0.5 hover:bg-black transition-colors"
+                          title="View alternate angle"
                         >
                           <Layers className="w-2.5 h-2.5" />
                           <span>{imgIndex + 1}/{piece.images.length}</span>
                         </button>
                       )}
-                      <span className="absolute top-1.5 left-1.5 w-5 h-5 rounded-full bg-black text-white font-mono text-[10px] flex items-center justify-center font-bold">
+                      <span className="absolute top-1 left-1 w-4 h-4 rounded-full bg-black text-white font-mono text-[9px] flex items-center justify-center font-bold">
                         {pIdx + 1}
                       </span>
                     </div>
 
-                    {/* Piece Details */}
+                    {/* Minimal Product Information */}
                     <div className="flex-1 flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-start">
-                          <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-400">
+                          <span className="font-mono text-[9px] uppercase tracking-wider text-neutral-400">
                             {piece.category} // {piece.color}
                           </span>
                           <span className="font-mono text-xs font-bold text-neutral-900">
                             ₹{piece.price.toLocaleString('en-IN')}
                           </span>
                         </div>
-                        <h4 className="font-sans font-bold text-sm text-neutral-900 mt-0.5 line-clamp-1">
+                        <h4 className="font-sans font-semibold text-xs text-neutral-900 mt-0.5 line-clamp-1">
                           {piece.name}
                         </h4>
-                        <p className="font-mono text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">
+                        <p className="font-mono text-[10px] text-neutral-500 mt-0.5 line-clamp-1 leading-normal">
                           {piece.description}
                         </p>
                       </div>
 
                       {/* Size Selector and Add Button */}
-                      <div className="mt-2.5 pt-2 border-t border-neutral-100 flex items-center justify-between gap-2">
+                      <div className="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between gap-1.5">
                         {/* Size pills */}
                         <div className="flex items-center gap-1">
                           {piece.sizes.map((sz) => (
                             <button
                               key={sz}
                               onClick={() => handleSizeChange(piece.id, sz)}
-                              className={`px-1.5 py-0.5 font-mono text-[10px] rounded transition-all ${
+                              className={`px-1.5 py-0.5 font-mono text-[9px] rounded transition-all ${
                                 currentSize === sz
                                   ? 'bg-black text-white font-bold'
                                   : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
@@ -484,7 +442,7 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
                         {/* Add single piece button */}
                         <button
                           onClick={() => handleAddSinglePiece(piece)}
-                          className={`flex items-center gap-1 px-3 py-1 rounded-full font-mono text-[11px] uppercase tracking-wider transition-all ${
+                          className={`flex items-center gap-1 px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider transition-all ${
                             isAdded
                               ? 'bg-emerald-600 text-white'
                               : 'bg-neutral-900 text-white hover:bg-[#ff1100]'
@@ -510,17 +468,17 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
             })}
 
             {/* AI Styling Insight Box inside drawer */}
-            <div className="p-3.5 rounded-xl bg-neutral-900 text-white">
-              <div className="flex items-center gap-1.5 mb-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#ff1100]" />
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-neutral-200">
+            <div className="p-3 rounded-xl bg-neutral-900 text-white">
+              <div className="flex items-center gap-1.5 mb-1">
+                <Sparkles className="w-3 h-3 text-[#ff1100]" />
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-neutral-200">
                   AI Styling Advice
                 </span>
               </div>
-              <p className="font-mono text-[11px] text-neutral-300 leading-relaxed">
+              <p className="font-mono text-[10px] text-neutral-300 leading-relaxed">
                 "{currentLook.aiStyling.rationale}"
               </p>
-              <div className="mt-2 pt-2 border-t border-neutral-800 text-[10px] font-mono text-neutral-400">
+              <div className="mt-2 pt-1.5 border-t border-neutral-800 text-[9px] font-mono text-neutral-400">
                 <span className="text-[#ff1100] font-bold">TIP: </span>
                 {currentLook.aiStyling.stylingTip}
               </div>
@@ -528,21 +486,21 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
           </div>
 
           {/* Drawer Bottom: Bundle Purchase CTA */}
-          <div className="p-4 sm:p-5 border-t border-neutral-200 bg-neutral-50 sticky bottom-0">
-            <div className="flex justify-between items-baseline mb-2.5">
+          <div className="p-4 border-t border-neutral-200 bg-neutral-50 sticky bottom-0 z-20">
+            <div className="flex justify-between items-baseline mb-2">
               <div>
-                <span className="font-sans font-bold text-sm text-neutral-900 block">
-                  Complete the look
+                <span className="font-sans font-bold text-xs text-neutral-900 block">
+                  Complete Look Bundle
                 </span>
-                <span className="font-mono text-[11px] text-neutral-500">
-                  Bundle both pieces & save 15%
+                <span className="font-mono text-[10px] text-neutral-500">
+                  Top & Bottom (15% Bundle Savings)
                 </span>
               </div>
               <div className="text-right">
-                <span className="font-mono text-xs text-neutral-400 line-through mr-1.5">
+                <span className="font-mono text-[11px] text-neutral-400 line-through mr-1.5">
                   ₹{totalCurrentPrice.toLocaleString('en-IN')}
                 </span>
-                <span className="font-sans font-bold text-base text-[#ff1100]">
+                <span className="font-sans font-bold text-sm text-[#ff1100]">
                   ₹{bundleDiscountPrice.toLocaleString('en-IN')}
                 </span>
               </div>
@@ -550,7 +508,7 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
 
             <button
               onClick={handleAddFullLook}
-              className={`w-full py-3 px-5 rounded-full font-mono text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 transition-all shadow-md ${
+              className={`w-full py-2.5 px-4 rounded-full font-mono text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 transition-all shadow-md ${
                 fullBundleAdded
                   ? 'bg-emerald-600 text-white'
                   : 'bg-black text-white hover:bg-[#ff1100] active:scale-98'
@@ -558,14 +516,14 @@ export default function RunwaySection({ onAddToCart, onOpenShop, onOpenAiStylist
             >
               {fullBundleAdded ? (
                 <>
-                  <Check className="w-4 h-4" />
+                  <Check className="w-3.5 h-3.5" />
                   <span>Both Pieces Added to Bag!</span>
                 </>
               ) : (
                 <>
-                  <ShoppingBag className="w-4 h-4" />
-                  <span>Add Complete Look to Bag</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ShoppingBag className="w-3.5 h-3.5" />
+                  <span>Add Both Pieces to Bag</span>
+                  <ArrowRight className="w-3 h-3" />
                 </>
               )}
             </button>

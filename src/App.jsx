@@ -13,6 +13,7 @@ export default function App() {
   const [showHeader, setShowHeader] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isRunwayDrawerOpen, setIsRunwayDrawerOpen] = useState(false);
   const lenisRef = useRef(null);
 
   // Initialize Lenis Smooth Scroll
@@ -81,12 +82,13 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-white text-black font-sans selection:bg-[#ff1100] selection:text-white">
-      {/* VIBE Header with Orbit Studio Menu & Bag Indicator */}
+      {/* Header bar with Orbit Studio Menu & Bag Indicator */}
       <OrbitMenu
         isVisible={showHeader}
         cartCount={cartItems.length}
         onOpenCart={() => setIsCartOpen(true)}
         onNavigate={scrollToSection}
+        isDrawerOpen={isRunwayDrawerOpen || isCartOpen}
       />
 
       {/* Hero Loader with Custom Center Look */}
@@ -102,6 +104,7 @@ export default function App() {
           onAddToCart={handleAddToCart}
           onOpenShop={() => scrollToSection('shop')}
           onOpenAiStylist={() => scrollToSection('ai-stylist')}
+          onDrawerStateChange={setIsRunwayDrawerOpen}
         />
 
         {/* Dedicated H&M Shop Catalog Page: Exactly 14 Products */}
