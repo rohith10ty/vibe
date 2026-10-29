@@ -26,3 +26,4 @@ dist-ssr
 # Temporary frames & extracted
 2/frames/
 2/extracted/
+scratch/
