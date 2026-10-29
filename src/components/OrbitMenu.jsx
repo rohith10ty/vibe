@@ -164,10 +164,10 @@ export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart,
             isDrawerOpen ? 'opacity-0 pointer-events-none -translate-y-4' : 'opacity-100 pointer-events-auto translate-y-0'
           }`}
         >
-          {/* Catalogue Button Beside the Bag */}
+          {/* Catalogue Button Beside the Bag (Laptop/Desktop only; on mobile it sits below "Try the Look") */}
           <button
             onClick={() => onNavigate?.('#shop')}
-            className="flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full border border-neutral-300 hover:border-black bg-white/80 backdrop-blur-sm transition-all shadow-sm active:scale-95 text-neutral-800 hover:bg-black hover:text-white font-mono text-[10px] sm:text-[11px] uppercase tracking-wider"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full border border-neutral-300 hover:border-black bg-white/80 backdrop-blur-sm transition-all shadow-sm active:scale-95 text-neutral-800 hover:bg-black hover:text-white font-mono text-[10px] sm:text-[11px] uppercase tracking-wider"
             title="Browse 14 Catalogue Pieces"
           >
             <ShoppingBag className="w-3.5 h-3.5 text-[#ff1100]" />

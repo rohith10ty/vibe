@@ -133,7 +133,7 @@ export default function RunwaySection({
         </div>
       )}
 
-      {/* Top Header: Compact Title (Catalogue button is in the top-right header beside Bag) */}
+      {/* Top Header: Compact Title (On laptop, Catalogue is beside Bag in top-right header; on mobile it sits right below Try the Look) */}
       <div className="relative z-10 max-w-7xl mx-auto w-full flex justify-between items-center pt-2 sm:pt-4 pb-1">
         <div>
           <div className="flex items-center gap-1.5 mb-0.5 font-mono text-[10px] uppercase tracking-widest text-[#ff1100]">
@@ -143,6 +143,17 @@ export default function RunwaySection({
           <h2 className="font-sans text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 leading-none">
             Try the Look.
           </h2>
+
+          {/* Catalogue button: ONLY on mobile screens, directly below "Try the Look." */}
+          <div className="block sm:hidden mt-2">
+            <button
+              onClick={onOpenShop}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-300 hover:border-black bg-white/90 backdrop-blur-sm transition-all shadow-sm active:scale-95 text-neutral-800 hover:bg-black hover:text-white font-mono text-[10px] uppercase tracking-wider"
+            >
+              <ShoppingBag className="w-3 h-3 text-[#ff1100]" />
+              <span>Catalogue (14)</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -230,9 +241,9 @@ export default function RunwaySection({
                     className="w-full h-full object-contain object-bottom pointer-events-none drop-shadow-lg"
                   />
 
-                  {/* Illustrated Callout Shape beside the Active Center Model (Closer & NO Red Border) */}
+                  {/* Illustrated Callout Shape beside the Active Center Model (Laptop/Desktop only; on mobile it sits at the bottom) */}
                   {isCenter && (
-                    <div className="absolute -left-36 sm:-left-42 md:-left-46 top-[34%] -translate-y-1/2 z-30 pointer-events-none transition-all duration-300">
+                    <div className="hidden sm:block absolute -left-36 sm:-left-42 md:-left-46 top-[34%] -translate-y-1/2 z-30 pointer-events-none transition-all duration-300">
                       <OutfitCalloutBubble look={currentLook} />
                     </div>
                   )}
@@ -403,6 +414,22 @@ export default function RunwaySection({
               </div>
             );
           })}
+        </div>
+      </div>
+
+      {/* Mobile-Only Outfit Info Box (Clean curved-edges box centered at the bottom, no callout tail) */}
+      <div className="block sm:hidden relative z-30 mx-auto px-4 pb-1 pointer-events-none animate-in fade-in duration-200">
+        <div className="flex items-center justify-between gap-2 px-3.5 py-1.5 rounded-full bg-[#0e0e11] text-white shadow-lg border border-white/10 max-w-[320px] mx-auto">
+          <div className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-wider text-[#ff1100] font-bold flex-shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ff1100] animate-pulse" />
+            <span>LOOK {currentLook.lookNumber}</span>
+          </div>
+          <span className="font-sans font-bold text-[11px] text-white tracking-wide truncate max-w-[140px]">
+            {currentLook.title}
+          </span>
+          <span className="font-mono text-[8px] text-neutral-400 uppercase tracking-wider truncate max-w-[85px]">
+            {currentLook.vibe.split('•')[0]}
+          </span>
         </div>
       </div>
 

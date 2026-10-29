@@ -133,8 +133,8 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
           </div>
         </div>
 
-        {/* Product Grid: Exactly 14 Items */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+        {/* Product Grid: Exactly 14 Items (2 in a row on mobile) */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
           {filteredProducts.map((product) => {
             const isAdded = addedItemIds.includes(product.id);
             const currentSize = selectedSizes[product.id] || product.sizes[0];
@@ -145,7 +145,7 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
             return (
               <div
                 key={product.id}
-                className="group relative flex flex-col justify-between border border-neutral-200 rounded-2xl overflow-hidden hover:border-neutral-400 hover:shadow-xl transition-all duration-300 bg-white"
+                className="group relative flex flex-col justify-between border border-neutral-200 rounded-xl sm:rounded-2xl overflow-hidden hover:border-neutral-400 hover:shadow-xl transition-all duration-300 bg-white"
               >
                 {/* Product Image & Badges */}
                 <div className="relative aspect-[3/4] bg-neutral-100 overflow-hidden">
@@ -160,55 +160,55 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
                   {images.length > 1 && (
                     <button
                       onClick={(e) => handleCycleImage(e, product.id, images.length)}
-                      className="absolute bottom-3 left-3 bg-black/75 hover:bg-black text-white px-2 py-1 rounded-md font-mono text-[10px] flex items-center gap-1 shadow-md transition-colors"
+                      className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 bg-black/75 hover:bg-black text-white px-1.5 py-0.5 sm:px-2 sm:py-1 rounded font-mono text-[8px] sm:text-[10px] flex items-center gap-1 shadow-md transition-colors"
                       title="Click to view alternate image angle"
                     >
-                      <Layers className="w-3 h-3 text-[#ff1100]" />
-                      <span>{currentImgIndex + 1}/{images.length} Angles</span>
+                      <Layers className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#ff1100]" />
+                      <span>{currentImgIndex + 1}/{images.length}</span>
                     </button>
                   )}
 
                   {/* Look badge */}
-                  <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-white px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider">
-                    {product.brand} • LOOK {product.lookNumber}
+                  <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-black/80 backdrop-blur-sm text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full font-mono text-[8px] sm:text-[10px] uppercase tracking-wider">
+                    L{product.lookNumber}
                   </div>
 
                   {/* Jump to Runway button */}
                   <button
                     onClick={() => onJumpToRunway(product.lookId)}
                     title="View this look on the runway"
-                    className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 hover:bg-[#ff1100] text-black hover:text-white flex items-center justify-center shadow-md transition-colors"
+                    className="absolute top-2 right-2 sm:top-3 sm:right-3 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/90 hover:bg-[#ff1100] text-black hover:text-white flex items-center justify-center shadow-md transition-colors"
                   >
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                 </div>
 
                 {/* Product Info */}
-                <div className="p-5 flex-1 flex flex-col justify-between">
+                <div className="p-2.5 sm:p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <span className="font-mono text-[10px] uppercase text-neutral-400 tracking-wider">
-                      {product.category} // {product.color}
+                    <span className="font-mono text-[8px] sm:text-[10px] uppercase text-neutral-400 tracking-wider">
+                      {product.category}
                     </span>
-                    <h3 className="font-sans font-semibold text-base text-neutral-900 mt-1 line-clamp-1 group-hover:text-[#ff1100] transition-colors">
+                    <h3 className="font-sans font-semibold text-xs sm:text-base text-neutral-900 mt-0.5 sm:mt-1 line-clamp-1 group-hover:text-[#ff1100] transition-colors leading-tight" title={product.name}>
                       {product.name}
                     </h3>
-                    <p className="font-mono text-xs text-neutral-500 mt-1 line-clamp-2 leading-relaxed">
+                    <p className="hidden sm:block font-mono text-xs text-neutral-500 mt-1 line-clamp-2 leading-relaxed">
                       {product.description}
                     </p>
                   </div>
 
-                  <div className="mt-4 pt-4 border-t border-neutral-100">
+                  <div className="mt-2.5 pt-2.5 sm:mt-4 sm:pt-4 border-t border-neutral-100">
                     {/* Sizes */}
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="font-mono text-[10px] text-neutral-400 uppercase">
+                    <div className="flex items-center justify-between mb-2 sm:mb-3">
+                      <span className="font-mono text-[8px] sm:text-[10px] text-neutral-400 uppercase">
                         Size:
                       </span>
-                      <div className="flex gap-1">
+                      <div className="flex gap-0.5 sm:gap-1 overflow-x-auto">
                         {product.sizes.map((sz) => (
                           <button
                             key={sz}
                             onClick={() => handleSizeSelect(product.id, sz)}
-                            className={`px-2 py-0.5 font-mono text-[10px] rounded border transition-colors ${
+                            className={`px-1 sm:px-2 py-0.5 font-mono text-[8px] sm:text-[10px] rounded border transition-colors ${
                               currentSize === sz
                                 ? 'bg-black text-white border-black'
                                 : 'border-neutral-200 text-neutral-600 hover:border-black'
@@ -221,19 +221,19 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
                     </div>
 
                     {/* Pricing in Indian Rupees & Add to Cart */}
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="font-mono text-base font-bold text-neutral-900">
+                    <div className="flex items-center justify-between gap-1">
+                      <div className="min-w-0">
+                        <span className="font-mono text-xs sm:text-base font-bold text-neutral-900">
                           ₹{product.price.toLocaleString('en-IN')}
                         </span>
-                        <span className="font-mono text-xs text-neutral-400 line-through ml-2">
+                        <span className="hidden sm:inline font-mono text-xs text-neutral-400 line-through ml-2">
                           ₹{product.originalPrice.toLocaleString('en-IN')}
                         </span>
                       </div>
 
                       <button
                         onClick={() => handleAddToCart(product)}
-                        className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full font-mono text-xs uppercase tracking-wider transition-all active:scale-95 ${
+                        className={`flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3.5 sm:py-2 rounded-full font-mono text-[9px] sm:text-xs uppercase tracking-wider transition-all active:scale-95 flex-shrink-0 ${
                           isAdded
                             ? 'bg-emerald-600 text-white'
                             : 'bg-black text-white hover:bg-[#ff1100]'
@@ -241,12 +241,12 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
                       >
                         {isAdded ? (
                           <>
-                            <Check className="w-3.5 h-3.5" />
-                            <span>Added</span>
+                            <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                            <span className="hidden sm:inline">Added</span>
                           </>
                         ) : (
                           <>
-                            <Plus className="w-3.5 h-3.5" />
+                            <Plus className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                             <span>Add</span>
                           </>
                         )}
