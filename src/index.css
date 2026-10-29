@@ -326,7 +326,6 @@ body.menu-is-open .orbit-toggle__line:nth-child(3) {
 .orbit-nav__list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
   width: 100%;
   max-width: 640px;
   margin: 0 auto;
@@ -345,7 +344,7 @@ body.menu-is-open .orbit-toggle__line:nth-child(3) {
   display: flex;
   align-items: center;
   gap: 28px;
-  padding: 14px 0;
+  padding: 18px 0;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
@@ -360,26 +359,17 @@ body.menu-is-open .orbit-toggle__line:nth-child(3) {
   flex-shrink: 0;
 }
 
-.orbit-nav__text-box {
+/* Text swap container: at rest only default text is visible, on hover alt text slides in */
+.orbit-nav__text-wrap {
   position: relative;
   overflow: hidden;
-  height: 44px;
+  height: 48px;
   display: flex;
   align-items: center;
 }
 
-.orbit-nav__text-track {
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
-}
-
-.orbit-nav__link:hover .orbit-nav__text-track {
-  transform: translateY(-44px);
-}
-
-.orbit-nav__text__main {
-  height: 44px;
+.orbit-nav__text-default {
+  height: 100%;
   display: flex;
   align-items: center;
   font-family: var(--ff-display);
@@ -388,10 +378,15 @@ body.menu-is-open .orbit-toggle__line:nth-child(3) {
   letter-spacing: -0.01em;
   text-transform: uppercase;
   color: var(--c-menu-fg);
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  transform: translateY(0%);
+  will-change: transform;
 }
 
-.orbit-nav__text__alt {
-  height: 44px;
+.orbit-nav__text-hover {
+  position: absolute;
+  inset: 0;
+  height: 100%;
   display: flex;
   align-items: center;
   font-family: var(--ff-serif);
@@ -401,18 +396,27 @@ body.menu-is-open .orbit-toggle__line:nth-child(3) {
   letter-spacing: -0.01em;
   text-transform: none;
   color: var(--c-accent);
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  transform: translateY(100%);
+  will-change: transform;
+}
+
+.orbit-nav__link:hover .orbit-nav__text-default {
+  transform: translateY(-100%);
+}
+
+.orbit-nav__link:hover .orbit-nav__text-hover {
+  transform: translateY(0%);
 }
 
 @media (max-width: 768px) {
   .orbit-header { padding: 18px 20px; }
   .orbit-toggle { width: 56px; height: 56px; }
   .orbit-brand { font-size: 26px; }
-  .orbit-nav__link { gap: 16px; padding: 12px 0; }
-  .orbit-nav__text-box { height: 38px; }
-  .orbit-nav__link:hover .orbit-nav__text-track { transform: translateY(-38px); }
-  .orbit-nav__text__main,
-  .orbit-nav__text__alt {
-    height: 38px;
+  .orbit-nav__link { gap: 16px; padding: 14px 0; }
+  .orbit-nav__text-wrap { height: 38px; }
+  .orbit-nav__text-default,
+  .orbit-nav__text-hover {
     font-size: 28px;
   }
 }

@@ -202,11 +202,9 @@ export default function OrbitMenu({ isVisible = true }) {
                     className="orbit-nav__link group"
                   >
                     <span className="orbit-nav__num">{item.num}</span>
-                    <div className="orbit-nav__text-box">
-                      <div className="orbit-nav__text-track">
-                        <span className="orbit-nav__text__main">{item.main}</span>
-                        <span className="orbit-nav__text__alt">{item.alt}</span>
-                      </div>
+                    <div className="orbit-nav__text-wrap">
+                      <span className="orbit-nav__text-default">{item.main}</span>
+                      <span className="orbit-nav__text-hover">{item.alt}</span>
                     </div>
                   </a>
                 </li>
