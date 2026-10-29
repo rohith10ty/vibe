@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import OrbitMenu from './components/OrbitMenu';
 import HeroRunwayExperience from './components/HeroRunwayExperience';
 import ShopPage from './components/ShopPage';
 import AiStylist from './components/AiStylist';
 import CartDrawer from './components/CartDrawer';
 import Footer from './components/Footer';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const [replayKey, setReplayKey] = useState(0);
@@ -15,29 +19,37 @@ export default function App() {
   const [isRunwayDrawerOpen, setIsRunwayDrawerOpen] = useState(false);
   const lenisRef = useRef(null);
 
-  // Initialize Lenis Smooth Scroll
+  // Initialize Lenis Smooth Scroll with GSAP ScrollTrigger Synchronization
   useEffect(() => {
+    // Clear any hash on reload to start cleanly at top
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname);
+      window.scrollTo(0, 0);
+    }
+
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,
+      wheelMultiplier: 0.9,
       touchMultiplier: 1.5,
     });
 
     lenisRef.current = lenis;
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+    // Synchronize Lenis scroll with GSAP ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
 
-    const rafId = requestAnimationFrame(raf);
+    const updateTicker = (time) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(updateTicker);
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      gsap.ticker.remove(updateTicker);
       lenis.destroy();
     };
   }, []);
@@ -80,14 +92,22 @@ export default function App() {
       } else if (target === '#runway') {
         const container = document.getElementById('hero-runway-container');
         if (container) {
-          const top = container.offsetTop + container.offsetHeight * 0.55;
+          // Scroll to the exact position where Runway is fully revealed in the pin
+          const top = container.offsetTop + window.innerHeight * 1.5;
           lenisRef.current.scrollTo(top, { duration: 1.2 });
         }
+      } else if (target === '#categories' || target === '#shop') {
+        const el = document.getElementById('shop');
+        if (el) lenisRef.current.scrollTo(el, { offset: 0, duration: 1.2 });
+      } else if (target === '#ai-stylist') {
+        const el = document.getElementById('ai-stylist');
+        if (el) lenisRef.current.scrollTo(el, { offset: 0, duration: 1.2 });
+      } else if (target === '#footer' || target === '#about') {
+        const el = document.getElementById('footer');
+        if (el) lenisRef.current.scrollTo(el, { offset: 0, duration: 1.2 });
       } else {
         const el = document.querySelector(target);
-        if (el) {
-          lenisRef.current.scrollTo(el, { offset: 0, duration: 1.2 });
-        }
+        if (el) lenisRef.current.scrollTo(el, { offset: 0, duration: 1.2 });
       }
     } else {
       const el = document.querySelector(target);
@@ -116,6 +136,7 @@ export default function App() {
           onOpenShop={() => scrollToSection('shop')}
           onOpenAiStylist={() => scrollToSection('ai-stylist')}
           onDrawerStateChange={setIsRunwayDrawerOpen}
+          onNavigate={scrollToSection}
         />
 
         {/* Dedicated H&M Shop Catalog Page: Exactly 14 Products */}

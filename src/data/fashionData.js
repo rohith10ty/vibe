@@ -24,7 +24,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/black-pant-red-checks-tshirt/d4fcc4bf1bd94e8cd3b19f6171e5a6c031e497a5.avif',
           '/costume-pieces/black-pant-red-checks-tshirt/f184b1c83c9f8e6b360c746d473a841b3e6b350c.avif'
         ],
-        pin: { top: '36%', left: '50%' },
+        pin: { top: '35%', left: '50%' },
         description: 'Soft brushed cotton flannel shirt with classic collar, button front, and open chest pockets.'
       },
       {
@@ -40,7 +40,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/black-pant-red-checks-tshirt/0b029e7858d0c38488f49bea9f76473b9f06c692.avif',
           '/costume-pieces/black-pant-red-checks-tshirt/ce40e09d2cd4300eaa23e4181a4eef836d323f42.avif'
         ],
-        pin: { top: '68%', left: '50%' },
+        pin: { top: '63%', left: '41%' },
         description: '5-pocket jeans in rigid cotton denim with a loose straight leg and casual dropped rise.'
       }
     ],
@@ -77,7 +77,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/brown-pant-and-grey-sweatshirt/508f6215a19756e9c77f895b4f9b697e9c3b8ffc.avif',
           '/costume-pieces/brown-pant-and-grey-sweatshirt/15e5919e8fbb9781504a95dc9c2ddeb21a0e82a2.avif'
         ],
-        pin: { top: '35%', left: '50%' },
+        pin: { top: '35%', left: '52%' },
         description: 'Cotton-blend sweatshirt with stand-up collar, silver half-zip, and dropped shoulders.'
       },
       {
@@ -93,7 +93,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/brown-pant-and-grey-sweatshirt/c6ba95364d2a56b9760042cf7a863555d30ecdb5.avif',
           '/costume-pieces/brown-pant-and-grey-sweatshirt/aee0651d6f69796741f7258ad694705b381c6436.avif'
         ],
-        pin: { top: '68%', left: '50%' },
+        pin: { top: '63%', left: '44%' },
         description: 'Tactile ribbed corduroy trousers with elasticated back waist and straight legs.'
       }
     ],
@@ -130,7 +130,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/dark-blue-pant-and-red-hoodie/8323d9b01914b1aad027c68b512001be1bd63ebc.avif',
           '/costume-pieces/dark-blue-pant-and-red-hoodie/87a948945e8541c19e45c87372ac289d506fcf84.avif'
         ],
-        pin: { top: '35%', left: '50%' },
+        pin: { top: '35%', left: '52%' },
         description: 'Premium heavyweight cotton sweatshirt fabric with a soft brushed inside and double-layered hood.'
       },
       {
@@ -146,7 +146,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/dark-blue-pant-and-red-hoodie/9c89838e76a7cf9bf211a6414a9aa4be8caf7f65.avif',
           '/costume-pieces/dark-blue-pant-and-red-hoodie/c64ca15823e3c94f7a9941d9cf858dd6c2dfa41e.avif'
         ],
-        pin: { top: '68%', left: '50%' },
+        pin: { top: '63%', left: '42%' },
         description: 'Non-stretch authentic denim cut wide through the hip and thigh, pooling slightly over footwear.'
       }
     ],
@@ -199,7 +199,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/green-outfit/3bd68b82c6db5fa5f6a4c932b90e5c95cf36c35f.avif',
           '/costume-pieces/green-outfit/bca4be478b2dd520c2ae4bb11c6ea9b911766cc9.avif'
         ],
-        pin: { top: '68%', left: '50%' },
+        pin: { top: '63%', left: '42%' },
         description: 'High-waisted wide-leg tailored trousers with clean front pleats and side slash pockets.'
       }
     ],
@@ -236,7 +236,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/jacket-with-jeans/d9b66058549428396ba6019832b3adbb2f745583.avif',
           '/costume-pieces/jacket-with-jeans/e8457929576eab9f16d3393e94b4dd1e3254896c.avif'
         ],
-        pin: { top: '35%', left: '50%' },
+        pin: { top: '35%', left: '52%' },
         description: 'Sturdy cotton twill jacket with contrast brown corduroy collar, metal zip, and welt hand pockets.'
       },
       {
@@ -252,7 +252,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/jacket-with-jeans/c09451dff6e05f5096133198bb1b9b258309ec0c.avif',
           '/costume-pieces/jacket-with-jeans/f1270ea96b57ee7adffa7676230a8f5c23c815f3.avif'
         ],
-        pin: { top: '68%', left: '50%' },
+        pin: { top: '63%', left: '42%' },
         description: 'Classic mid-rise straight jeans in rinsed mid-blue denim with subtle fading across the thighs.'
       }
     ],
@@ -289,7 +289,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/white-pant-blue-shirt/1ed9582ef14dae11ed9d61eff518fd831b56321e.avif',
           '/costume-pieces/white-pant-blue-shirt/7fad0aa4fe6f50df340a943ee2fa2820b6aa42fd.avif'
         ],
-        pin: { top: '35%', left: '50%' },
+        pin: { top: '34%', left: '47%' },
         description: 'Airy cotton poplin shirt with relaxed point collar, chest pocket, and smooth mother-of-pearl buttons.'
       },
       {
@@ -305,7 +305,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/white-pant-blue-shirt/bbe2100712223d4d72fc834a8e283d51ddfeae34.avif',
           '/costume-pieces/white-pant-blue-shirt/b5638e02178c9e8519991762c48a911a9731d3e7.avif'
         ],
-        pin: { top: '68%', left: '50%' },
+        pin: { top: '63%', left: '48%' },
         description: 'Pull-on trousers in an airy linen and cotton weave with an elasticated drawstring waist.'
       }
     ],
@@ -342,7 +342,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/white-shirt-and-blue-jeans/50f7627b03ae68adee94a126d27bda07fb17c830.avif',
           '/costume-pieces/white-shirt-and-blue-jeans/60171dac234e500f4fd27bf1dcb3fb98136ec759.avif'
         ],
-        pin: { top: '35%', left: '50%' },
+        pin: { top: '34%', left: '45%' },
         description: 'Crisp woven poplin shirt cut with an oversized boxy silhouette, dropped shoulders, and chest pocket.'
       },
       {
@@ -358,7 +358,7 @@ export const RUNWAY_LOOKS = [
           '/costume-pieces/white-shirt-and-blue-jeans/505ee8abb3f841f049dbb6dcddc235c9a5656dcf.avif',
           '/costume-pieces/white-shirt-and-blue-jeans/ad501c7584c23d9ae0edf08e6f2f85386c6cbb28.avif'
         ],
-        pin: { top: '68%', left: '50%' },
+        pin: { top: '63%', left: '36%' },
         description: 'Light wash denim with vintage wear whiskers, distressed hem finish, and custom side-seam detailing.'
       }
     ],

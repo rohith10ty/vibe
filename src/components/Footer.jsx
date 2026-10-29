@@ -3,9 +3,9 @@ import { ArrowUpRight } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#0a0a0c] text-white pt-20 pb-12 px-6 sm:px-12 border-t border-white/10 font-sans">
+    <footer id="footer" className="w-full bg-[#0a0a0c] text-white pt-16 pb-3 sm:pb-4 px-6 sm:px-12 border-t border-white/10 font-sans">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-12 border-b border-white/10">
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-4">
             <span className="font-serif text-3xl font-semibold uppercase tracking-tight flex items-center gap-1">
@@ -72,9 +72,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom Credits */}
-        <div className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 font-mono text-[11px] text-neutral-500 uppercase tracking-widest">
+        <div className="pt-6 flex flex-col sm:flex-row justify-center sm:justify-start items-center gap-4 font-mono text-[11px] text-neutral-500 uppercase tracking-widest">
           <span>© 2026 VIBE ATELIER INC. ALL RIGHTS RESERVED.</span>
-          <span>DESIGNED WITH REACT • VITE • TAILWIND CSS</span>
         </div>
       </div>
     </footer>

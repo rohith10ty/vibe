@@ -1,6 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import HeroLoader from './HeroLoader';
 import RunwaySection from './RunwaySection';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function HeroRunwayExperience({
   replayKey,
@@ -10,104 +14,108 @@ export default function HeroRunwayExperience({
   onOpenShop,
   onOpenAiStylist,
   onDrawerStateChange,
+  onNavigate,
 }) {
   const containerRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const heroWrapperRef = useRef(null);
+  const runwayWrapperRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const totalScrollable = containerRef.current.offsetHeight - window.innerHeight;
-      if (totalScrollable <= 0) return;
-      const scrolled = -rect.top;
-      const progress = Math.min(Math.max(scrolled / totalScrollable, 0), 1);
-      setScrollProgress(progress);
-    };
+    const ctx = gsap.context(() => {
+      // Initial states
+      gsap.set(heroWrapperRef.current, { opacity: 1, pointerEvents: 'auto' });
+      gsap.set(runwayWrapperRef.current, { opacity: 0, pointerEvents: 'none' });
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+      // Single pinned timeline driving the sequence:
+      // 1. Hero visible (progress 0)
+      // 2. Scroll -> Hero completely disappears (progress 0.3)
+      // 3. Short empty screen with exact same background (progress 0.3 - 0.45)
+      // 4. Try the Look completely fades in and stays pinned for exploration (progress 0.45 - 1.0)
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: '+=250%',
+          pin: true,
+          scrub: 0.5,
+          onUpdate: (self) => {
+            const p = self.progress;
+            if (heroWrapperRef.current) {
+              heroWrapperRef.current.style.pointerEvents = p < 0.2 ? 'auto' : 'none';
+            }
+            if (runwayWrapperRef.current) {
+              runwayWrapperRef.current.style.pointerEvents = p > 0.15 ? 'auto' : 'none';
+            }
+          },
+        },
+      });
+
+      // Phase 1: Hero completely disappears first
+      tl.to(heroWrapperRef.current, {
+        opacity: 0,
+        pointerEvents: 'none',
+        duration: 1.0,
+        ease: 'power2.inOut',
+      })
+      // Phase 2: Short pause on clean background
+      .to({}, { duration: 0.4 })
+      // Phase 3: Try the Look completely fades in
+      .to(runwayWrapperRef.current, {
+        opacity: 1,
+        pointerEvents: 'auto',
+        duration: 1.0,
+        ease: 'power2.inOut',
+      })
+      // Phase 4: Generous stay on Runway so user can explore all looks, pins, and numbers
+      .to({}, { duration: 2.2 });
+    }, containerRef);
+
+    return () => ctx.revert();
   }, []);
-
-  // Smooth crossfade calculations
-  // Progress 0.00 -> 0.30: Hero 100%
-  // Progress 0.30 -> 0.55: Hero fades out (1 -> 0)
-  // Progress 0.45 -> 0.70: Runway fades in (0 -> 1)
-  // Progress 0.70 -> 1.00: Runway 100%
-  let heroOpacity = 1;
-  let runwayOpacity = 0;
-
-  if (scrollProgress <= 0.3) {
-    heroOpacity = 1;
-    runwayOpacity = 0;
-  } else if (scrollProgress > 0.3 && scrollProgress < 0.55) {
-    heroOpacity = 1 - (scrollProgress - 0.3) / 0.25;
-    runwayOpacity = scrollProgress > 0.45 ? (scrollProgress - 0.45) / 0.15 : 0;
-  } else if (scrollProgress >= 0.55 && scrollProgress <= 0.7) {
-    heroOpacity = 0;
-    runwayOpacity = (scrollProgress - 0.45) / 0.25;
-  } else {
-    heroOpacity = 0;
-    runwayOpacity = 1;
-  }
-
-  heroOpacity = Math.min(Math.max(heroOpacity, 0), 1);
-  runwayOpacity = Math.min(Math.max(runwayOpacity, 0), 1);
 
   return (
     <div
       ref={containerRef}
       id="hero-runway-container"
-      className="relative w-full h-[210vh] bg-[#f4f0e6]"
+      className="relative w-full h-screen bg-[#f4f0e6] overflow-hidden select-none"
     >
       {/* Invisible anchor target for #runway navigation */}
-      <div id="runway" className="absolute top-[55%] left-0 w-full h-1 pointer-events-none" />
+      <div id="runway" className="absolute top-1/2 left-0 w-full h-1 pointer-events-none" />
 
-      {/* Sticky Fullscreen Viewport with Single Fixed Background */}
-      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden">
-        {/* Single Fixed Audix 91 Pastel Jelly Blobs (Completely motionless on scroll) */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="jelly-blobs">
-            <div className="jelly-blob jelly-blob--1" />
-            <div className="jelly-blob jelly-blob--2" />
-            <div className="jelly-blob jelly-blob--3" />
-          </div>
+      {/* Single Fixed Audix 91 Pastel Jelly Blobs (Completely motionless on scroll) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="jelly-blobs">
+          <div className="jelly-blob jelly-blob--1" />
+          <div className="jelly-blob jelly-blob--2" />
+          <div className="jelly-blob jelly-blob--3" />
         </div>
+      </div>
 
-        {/* Hero Layer (Fades out smoothly when scrolling down) */}
-        <div
-          style={{
-            opacity: heroOpacity,
-            pointerEvents: heroOpacity > 0.1 ? 'auto' : 'none',
-            visibility: heroOpacity > 0.005 ? 'visible' : 'hidden',
-          }}
-          className="absolute inset-0 w-full h-full transition-opacity duration-200 ease-out z-10"
-        >
-          <HeroLoader
-            replayKey={replayKey}
-            onRevealHeader={onRevealHeader}
-            onAnimationComplete={onAnimationComplete}
-          />
-        </div>
+      {/* Hero Layer (Fades out completely first on scroll) */}
+      <div
+        ref={heroWrapperRef}
+        className="absolute inset-0 w-full h-full z-10 transition-opacity"
+      >
+        <HeroLoader
+          replayKey={replayKey}
+          onRevealHeader={onRevealHeader}
+          onAnimationComplete={onAnimationComplete}
+          onNavigate={onNavigate}
+        />
+      </div>
 
-        {/* "Try the Look" Runway Layer (Fades in smoothly on the exact same background) */}
-        <div
-          style={{
-            opacity: runwayOpacity,
-            pointerEvents: runwayOpacity > 0.1 ? 'auto' : 'none',
-            visibility: runwayOpacity > 0.005 ? 'visible' : 'hidden',
-          }}
-          className="absolute inset-0 w-full h-full transition-opacity duration-200 ease-out z-20"
-        >
-          <RunwaySection
-            onAddToCart={onAddToCart}
-            onOpenShop={onOpenShop}
-            onOpenAiStylist={onOpenAiStylist}
-            onDrawerStateChange={onDrawerStateChange}
-            isEmbedded={true}
-          />
-        </div>
+      {/* "Try the Look" Runway Layer (Fades in on the exact same background) */}
+      <div
+        ref={runwayWrapperRef}
+        className="absolute inset-0 w-full h-full z-20 transition-opacity"
+      >
+        <RunwaySection
+          onAddToCart={onAddToCart}
+          onOpenShop={onOpenShop}
+          onOpenAiStylist={onOpenAiStylist}
+          onDrawerStateChange={onDrawerStateChange}
+          isEmbedded={true}
+        />
       </div>
     </div>
   );

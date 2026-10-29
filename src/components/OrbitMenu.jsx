@@ -13,10 +13,10 @@ export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart,
   const clipStateRef = useRef({ r: 0 });
 
   const navItems = [
-    { num: '01', main: 'HOME', alt: 'Home', tag: 'Atelier // 01', href: '#' },
+    { num: '01', main: 'HOME', alt: 'Home', tag: 'Atelier // 01', href: '#home' },
     { num: '02', main: 'THE RUNWAY', alt: 'The Runway', tag: '3D Lookbook', href: '#runway' },
     { num: '03', main: 'AI STYLIST', alt: 'AI Stylist', tag: 'Neural Engine', href: '#ai-stylist' },
-    { num: '04', main: 'SHOP PIECES', alt: 'Shop Pieces', tag: '14 H&M Items', href: '#shop' },
+    { num: '04', main: 'CATALOGUE', alt: 'Catalogue', tag: '14 H&M Pieces', href: '#shop' },
     { num: '05', main: 'ABOUT', alt: 'About', tag: 'The Atelier', href: '#footer' },
   ];
 
@@ -158,12 +158,22 @@ export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart,
           isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        {/* Right Action Icons: Shopping Bag + Gooey Toggle (fades away when side drawer is open) */}
+        {/* Right Action Icons: Catalogue + Shopping Bag + Gooey Toggle */}
         <div
-          className={`flex items-center gap-3 sm:gap-4 pointer-events-auto ml-auto transition-all duration-300 ${
+          className={`flex items-center gap-2.5 sm:gap-3 pointer-events-auto ml-auto transition-all duration-300 ${
             isDrawerOpen ? 'opacity-0 pointer-events-none -translate-y-4' : 'opacity-100 pointer-events-auto translate-y-0'
           }`}
         >
+          {/* Catalogue Button Beside the Bag */}
+          <button
+            onClick={() => onNavigate?.('#shop')}
+            className="flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full border border-neutral-300 hover:border-black bg-white/80 backdrop-blur-sm transition-all shadow-sm active:scale-95 text-neutral-800 hover:bg-black hover:text-white font-mono text-[10px] sm:text-[11px] uppercase tracking-wider"
+            title="Browse 14 Catalogue Pieces"
+          >
+            <ShoppingBag className="w-3.5 h-3.5 text-[#ff1100]" />
+            <span>Catalogue (14)</span>
+          </button>
+
           {/* Shopping Bag Button */}
           <button
             onClick={onOpenCart}
@@ -238,22 +248,16 @@ export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart,
                         {item.num}
                       </span>
 
-                      {/* Locked-height dual text container: NO CLIPPING, NO OVERLAP */}
-                      <div className="relative overflow-hidden h-9 sm:h-11 flex flex-col justify-start">
-                        <div className="transition-transform duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-1/2">
-                          {/* Default state: Clean Bold White Headline */}
-                          <div className="h-9 sm:h-11 flex items-center">
-                            <span className="font-sans font-bold text-2xl sm:text-3xl lg:text-4xl uppercase tracking-wider text-[#ecebe4] whitespace-nowrap">
-                              {item.main}
-                            </span>
-                          </div>
-                          {/* Hover state: Italic Crimson Red Serif */}
-                          <div className="h-9 sm:h-11 flex items-center">
-                            <span className="font-serif italic font-medium text-2xl sm:text-3xl lg:text-4xl text-[#ff1100] whitespace-nowrap">
-                              {item.alt}
-                            </span>
-                          </div>
-                        </div>
+                      {/* Dual Text Layer: Absolute positioning ensures ZERO overlap or bleed */}
+                      <div className="relative overflow-hidden h-9 sm:h-10 flex items-center min-w-[200px]">
+                        {/* Default state: Clean Bold White Headline */}
+                        <span className="font-sans font-bold text-xl sm:text-2xl uppercase tracking-wider text-[#ecebe4] whitespace-nowrap transition-all duration-300 ease-out group-hover:-translate-y-full group-hover:opacity-0">
+                          {item.main}
+                        </span>
+                        {/* Hover state: Italic Crimson Red Serif */}
+                        <span className="absolute inset-0 flex items-center font-serif italic font-medium text-xl sm:text-2xl text-[#ff1100] whitespace-nowrap transition-all duration-300 ease-out translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
+                          {item.alt}
+                        </span>
                       </div>
                     </div>
 

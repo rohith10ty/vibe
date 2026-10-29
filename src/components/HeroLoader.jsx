@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ArrowDown } from 'lucide-react';
 
-export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHeader }) {
+export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHeader, onNavigate }) {
   const containerRef = useRef(null);
   const veilRef = useRef(null);
   const stripRef = useRef(null);
@@ -265,7 +265,11 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
         }`}
       >
         <a
-          href="#"
+          href="#home"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate ? onNavigate('#home') : window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           className="font-serif text-2xl sm:text-3xl font-medium tracking-tight text-neutral-900 select-none uppercase flex items-center gap-0.5 hover:opacity-80 transition-opacity"
         >
           VIBE<span className="italic text-[#ff1100]">*</span>
@@ -352,13 +356,21 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
           <div className="flex items-center gap-3">
             <a
               href="#ai-stylist"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate ? onNavigate('#ai-stylist') : document.getElementById('ai-stylist')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="flex items-center justify-center px-6 py-3.5 bg-[#ff1100] text-white font-mono text-xs uppercase tracking-widest rounded-full hover:bg-black transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95"
             >
               <span>Explore AI Recommendations</span>
             </a>
 
             <a
-              href="#categories"
+              href="#runway"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate ? onNavigate('#runway') : document.getElementById('runway')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="hidden lg:flex items-center gap-2 px-5 py-3.5 border border-neutral-300 font-mono text-xs uppercase tracking-widest text-neutral-800 rounded-full hover:border-black transition-colors"
             >
               <span>View Collections</span>
