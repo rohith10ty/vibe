@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ShoppingBag } from 'lucide-react';
 
-export default function OrbitMenu({ isVisible = true }) {
+export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef(null);
   const menuRef = useRef(null);
@@ -14,10 +14,10 @@ export default function OrbitMenu({ isVisible = true }) {
 
   const navItems = [
     { num: '01', main: 'HOME', alt: 'Home', tag: 'Atelier', href: '#' },
-    { num: '02', main: 'AI STYLIST', alt: 'AI Stylist', tag: 'AI Engine', href: '#ai-stylist' },
-    { num: '03', main: 'CATEGORIES', alt: 'Categories', tag: 'Collections', href: '#categories' },
-    { num: '04', main: 'LOOKBOOK', alt: 'Lookbook', tag: 'Curated Outfits', href: '#lookbook' },
-    { num: '05', main: 'ABOUT', alt: 'About', tag: 'The Atelier', href: '#about' },
+    { num: '02', main: 'THE RUNWAY', alt: 'The Runway', tag: '3D Experience', href: '#runway' },
+    { num: '03', main: 'AI STYLIST', alt: 'AI Stylist', tag: 'Neural Engine', href: '#ai-stylist' },
+    { num: '04', main: 'SHOP PIECES', alt: 'Shop Pieces', tag: 'H&M Catalogue', href: '#shop' },
+    { num: '05', main: 'ABOUT', alt: 'About', tag: 'The Atelier', href: '#footer' },
   ];
 
   const computeCircle = useCallback(() => {
@@ -140,7 +140,7 @@ export default function OrbitMenu({ isVisible = true }) {
 
   return (
     <>
-      {/* Header bar with Brand on Left and Toggle on Right */}
+      {/* Header bar with Brand on Left and Bag + Toggle on Right */}
       <header
         className={`orbit-header transition-opacity duration-700 ${
           isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
@@ -150,20 +150,38 @@ export default function OrbitMenu({ isVisible = true }) {
           VIBE<span>*</span>
         </a>
 
-        {/* Circular gooey hover toggle */}
-        <button
-          ref={toggleRef}
-          onClick={toggleMenu}
-          className="orbit-toggle"
-          type="button"
-          aria-label={isOpen ? 'Close menu' : 'Open menu'}
-        >
-          <span className="orbit-toggle__inner" aria-hidden="true">
-            <span className="orbit-toggle__line"></span>
-            <span className="orbit-toggle__line"></span>
-            <span className="orbit-toggle__line"></span>
-          </span>
-        </button>
+        {/* Right Action Icons: Shopping Bag + Gooey Toggle */}
+        <div className="flex items-center gap-4 pointer-events-auto ml-auto">
+          {/* Shopping Bag Button */}
+          <button
+            onClick={onOpenCart}
+            className="relative flex items-center justify-center w-12 h-12 rounded-full border border-neutral-300 hover:border-black bg-white/80 backdrop-blur-sm transition-all shadow-sm active:scale-95 text-neutral-800"
+            title="Open Shopping Bag"
+            aria-label="Open Shopping Bag"
+          >
+            <ShoppingBag className="w-5 h-5" />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#ff1100] text-white rounded-full text-[10px] font-mono font-bold flex items-center justify-center shadow-md">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
+          {/* Circular gooey hover toggle */}
+          <button
+            ref={toggleRef}
+            onClick={toggleMenu}
+            className="orbit-toggle"
+            type="button"
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          >
+            <span className="orbit-toggle__inner" aria-hidden="true">
+              <span className="orbit-toggle__line"></span>
+              <span className="orbit-toggle__line"></span>
+              <span className="orbit-toggle__line"></span>
+            </span>
+          </button>
+        </div>
       </header>
 
       {/* Ink-blot expanding circle menu overlay */}
