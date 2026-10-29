@@ -19,7 +19,6 @@ export default function OrbitMenu({ isVisible = true }) {
     { num: '05', main: 'ABOUT', alt: 'About', href: '#about' },
   ];
 
-  // Helper to compute toggle center & radius to farthest corner
   const computeCircle = useCallback(() => {
     if (!toggleRef.current) return { cx: window.innerWidth - 60, cy: 60, maxR: 1500 };
     const rect = toggleRef.current.getBoundingClientRect();
@@ -53,7 +52,7 @@ export default function OrbitMenu({ isVisible = true }) {
     applyCircle(cx, cy, 0);
 
     const validLinks = linksRef.current.filter(Boolean);
-    gsap.set(validLinks, { y: 45, opacity: 0 });
+    gsap.set(validLinks, { y: 35, opacity: 0 });
 
     const tl = gsap.timeline({
       paused: true,
@@ -80,11 +79,11 @@ export default function OrbitMenu({ isVisible = true }) {
       {
         y: 0,
         opacity: 1,
-        duration: 0.6,
-        stagger: 0.06,
+        duration: 0.5,
+        stagger: 0.05,
         ease: 'power3.out',
       },
-      0.5
+      0.45
     );
 
     timelineRef.current = tl;
@@ -200,20 +199,22 @@ export default function OrbitMenu({ isVisible = true }) {
                   <a
                     href={item.href}
                     onClick={handleLinkClick}
-                    className="orbit-nav__link"
+                    className="orbit-nav__link group"
                   >
                     <span className="orbit-nav__num">{item.num}</span>
-                    <span className="orbit-nav__text">
-                      <span className="orbit-nav__text__main">{item.main}</span>
-                      <span className="orbit-nav__text__alt">{item.alt}</span>
-                    </span>
+                    <div className="orbit-nav__text-box">
+                      <div className="orbit-nav__text-track">
+                        <span className="orbit-nav__text__main">{item.main}</span>
+                        <span className="orbit-nav__text__alt">{item.alt}</span>
+                      </div>
+                    </div>
                   </a>
                 </li>
               ))}
             </ul>
           </nav>
 
-          <div className="border-t border-white/10 pt-6 px-4 flex justify-between text-xs font-mono text-neutral-400 max-w-4xl mx-auto w-full">
+          <div className="border-t border-white/10 pt-6 px-4 flex justify-between text-xs font-mono text-neutral-400 max-w-3xl mx-auto w-full">
             <span>AI FASHION COUTURE // SS26</span>
             <span>AUTONOMOUS STYLING ATELIER</span>
           </div>

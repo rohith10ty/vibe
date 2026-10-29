@@ -7,7 +7,10 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
   const veilRef = useRef(null);
   const stripRef = useRef(null);
   const featureRef = useRef(null);
+  const featureBaseRef = useRef(null);
+  const featureCutoutRef = useRef(null);
   const titleWordsRef = useRef([]);
+  const [isRevealed, setIsRevealed] = useState(false);
   const [animationDone, setAnimationDone] = useState(false);
 
   const onAnimationCompleteRef = useRef(onAnimationComplete);
@@ -25,13 +28,18 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
     { id: 1, src: '/complete-look/e080282d3d188085e206f50c542d476977e9b066.avif', label: 'Look 01' },
     { id: 2, src: '/complete-look/516bc4ebb6d6db0d145049cb4a298ad610be13bd.avif', label: 'Look 02' },
     // Center Feature Look (exact image requested by user)
-    { id: 3, src: '/complete-look/e89bbd02ede9a19bc2f4df411a618dee25edc6fe.avif', label: 'Look 03 // Feature', isFeature: true },
+    {
+      id: 3,
+      src: '/complete-look/e89bbd02ede9a19bc2f4df411a618dee25edc6fe.avif',
+      cutoutSrc: '/complete-look/man-transparent.png',
+      label: 'Look 03 // Feature',
+      isFeature: true,
+    },
     { id: 4, src: '/complete-look/e8457929576eab9f16d3393e94b4dd1e3254896c.avif', label: 'Look 04' },
     { id: 5, src: '/complete-look/de325ccf0490f529eb162ed71023a0c95e23b78f.avif', label: 'Look 05' },
   ];
 
   useEffect(() => {
-    // Prevent running twice for the same replayKey
     if (lastReplayKeyRef.current === replayKey && timelineInstanceRef.current) {
       return;
     }
@@ -41,6 +49,7 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
       timelineInstanceRef.current.kill();
     }
 
+    setIsRevealed(false);
     setAnimationDone(false);
 
     const ctx = gsap.context(() => {
@@ -48,6 +57,8 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
       const strip = stripRef.current;
       const tiles = strip ? strip.querySelectorAll('.tile') : [];
       const feature = featureRef.current;
+      const featureBase = featureBaseRef.current;
+      const featureCutout = featureCutoutRef.current;
       const words = titleWordsRef.current.filter(Boolean);
 
       if (!veil || !strip || !tiles.length || !feature) return;
@@ -77,7 +88,17 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
         opacity: 0,
         clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
         transformOrigin: '50% 50%',
+        boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.5)',
+        backgroundColor: '#111',
       });
+
+      // Feature image layers
+      if (featureBase) {
+        gsap.set(featureBase, { opacity: 1 });
+      }
+      if (featureCutout) {
+        gsap.set(featureCutout, { opacity: 0 });
+      }
 
       if (words.length > 0) {
         gsap.set(words, { y: '100%' });
@@ -168,7 +189,7 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
         3.5
       );
 
-      // 7. Dark veil lifts - reveal logo and menu at this exact moment!
+      // 7. Dark veil lifts - remove the background of the middle man right here!
       tl.to(
         veil,
         {
@@ -176,11 +197,43 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
           duration: 1,
           ease: EASE,
           onStart: () => {
+            setIsRevealed(true);
             onRevealHeaderRef.current?.();
           },
         },
         4.5
       );
+
+      // Transition the center man's background away seamlessly as veil lifts
+      if (featureBase && featureCutout) {
+        tl.to(
+          featureBase,
+          {
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power2.inOut',
+          },
+          4.5
+        );
+        tl.to(
+          featureCutout,
+          {
+            opacity: 1,
+            duration: 0.8,
+            ease: 'power2.inOut',
+          },
+          4.5
+        );
+        tl.to(
+          feature,
+          {
+            boxShadow: 'none',
+            backgroundColor: 'transparent',
+            duration: 0.6,
+          },
+          4.5
+        );
+      }
 
       // 8. Title reveal ("FASHION")
       if (words.length > 0) {
@@ -215,13 +268,24 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
               <figure
                 key={item.id}
                 ref={featureRef}
-                className="tile tile--feature relative z-30"
+                className={`tile tile--feature relative z-30 ${isRevealed ? 'is-revealed' : ''}`}
               >
+                {/* 1. Base Photo with Studio Background (active during loader) */}
                 <img
+                  ref={featureBaseRef}
                   src={item.src}
                   alt={item.label}
                   loading="eager"
-                  className="w-full h-full object-cover"
+                  className="absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300"
+                />
+
+                {/* 2. Transparent Cutout of the Man (revealed when hero unveils) */}
+                <img
+                  ref={featureCutoutRef}
+                  src={item.cutoutSrc}
+                  alt={`${item.label} cutout`}
+                  loading="eager"
+                  className="absolute inset-0 w-full h-full object-cover z-20 pointer-events-none"
                 />
               </figure>
             );
@@ -255,13 +319,13 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
         </h1>
       </div>
 
-      {/* Hero Bottom Bar (Kept strictly to bottom-left text and bottom-right buttons) */}
+      {/* Hero Bottom Bar (No border line, clean bottom-left text & bottom-right buttons) */}
       <div
         className={`absolute inset-0 z-40 pointer-events-none flex flex-col justify-end p-6 md:p-12 transition-opacity duration-1000 ${
           animationDone ? 'opacity-100' : 'opacity-0'
         }`}
       >
-        <div className="w-full flex flex-col sm:flex-row justify-between items-end sm:items-center gap-6 pt-6 border-t border-neutral-200/80 pointer-events-auto">
+        <div className="w-full flex flex-col sm:flex-row justify-between items-end sm:items-center gap-6 pt-6 pointer-events-auto">
           {/* Bottom Left Text */}
           <div className="max-w-md">
             <p className="font-mono text-xs text-neutral-600 leading-relaxed uppercase tracking-wider">
