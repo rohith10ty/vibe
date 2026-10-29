@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, SlidersHorizontal, Check, Plus, ArrowUpRight, Sparkles } from 'lucide-react';
+import { Search, SlidersHorizontal, Check, Plus, ArrowUpRight, Sparkles, Layers } from 'lucide-react';
 import { ALL_PRODUCTS } from '../data/fashionData';
 
 export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist }) {
@@ -8,8 +8,13 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
   const [sortBy, setSortBy] = useState('featured');
   const [selectedSizes, setSelectedSizes] = useState({});
   const [addedItemIds, setAddedItemIds] = useState([]);
+  const [activeImageIndices, setActiveImageIndices] = useState({});
 
-  const categories = ['All', 'Tops', 'Bottoms', 'Footwear'];
+  const categories = [
+    { label: 'All Pieces (14)', value: 'All' },
+    { label: 'Tops (7)', value: 'Tops' },
+    { label: 'Bottoms (7)', value: 'Bottoms' },
+  ];
 
   const filteredProducts = useMemo(() => {
     return ALL_PRODUCTS.filter((product) => {
@@ -32,6 +37,14 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
     setSelectedSizes((prev) => ({ ...prev, [productId]: size }));
   };
 
+  const handleCycleImage = (e, productId, total) => {
+    e.stopPropagation();
+    setActiveImageIndices((prev) => ({
+      ...prev,
+      [productId]: ((prev[productId] || 0) + 1) % total,
+    }));
+  };
+
   const handleAddToCart = (product) => {
     const size = selectedSizes[product.id] || product.sizes[0];
     if (onAddToCart) {
@@ -44,20 +57,20 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
   };
 
   return (
-    <section id="shop" className="relative w-full bg-white py-24 px-4 sm:px-8 lg:px-16 border-t border-neutral-200">
+    <section id="shop" className="relative w-full bg-white py-20 px-4 sm:px-8 lg:px-16 border-t border-neutral-200">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pb-12 border-b border-neutral-200">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pb-10 border-b border-neutral-200">
           <div>
             <div className="flex items-center gap-2 mb-2 font-mono text-xs uppercase tracking-widest text-[#ff1100]">
               <span className="w-2 h-2 rounded-full bg-[#ff1100]"></span>
-              <span>ATELIER CATALOGUE // SS26</span>
+              <span>H&M INDIA WARDROBE // 14 PIECES</span>
             </div>
-            <h2 className="font-sans text-4xl sm:text-5xl font-bold tracking-tight text-neutral-900">
+            <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-neutral-900">
               The Wardrobe Pieces.
             </h2>
             <p className="font-mono text-xs sm:text-sm text-neutral-500 uppercase tracking-wider mt-2">
-              All authentic H&M pieces featured across the 7 Runway Outfits.
+              All 14 authentic H&M pieces featured across the 7 Runway Outfits (1 Top & 1 Bottom each).
             </p>
           </div>
 
@@ -76,15 +89,15 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
           <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
             {categories.map((cat) => (
               <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
+                key={cat.value}
+                onClick={() => setActiveCategory(cat.value)}
                 className={`px-4 py-2 font-mono text-xs uppercase tracking-wider rounded-full transition-all whitespace-nowrap ${
-                  activeCategory === cat
+                  activeCategory === cat.value
                     ? 'bg-black text-white font-medium shadow-sm'
                     : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                 }`}
               >
-                {cat === 'All' ? 'All Pieces (21)' : cat}
+                {cat.label}
               </button>
             ))}
           </div>
@@ -120,11 +133,14 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
           </div>
         </div>
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {/* Product Grid: Exactly 14 Items */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
           {filteredProducts.map((product) => {
             const isAdded = addedItemIds.includes(product.id);
             const currentSize = selectedSizes[product.id] || product.sizes[0];
+            const images = product.images && product.images.length > 0 ? product.images : [product.image];
+            const currentImgIndex = activeImageIndices[product.id] || 0;
+            const currentDisplayImage = images[currentImgIndex] || images[0];
 
             return (
               <div
@@ -134,11 +150,23 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
                 {/* Product Image & Badges */}
                 <div className="relative aspect-[3/4] bg-neutral-100 overflow-hidden">
                   <img
-                    src={product.image}
+                    src={currentDisplayImage}
                     alt={product.name}
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
+
+                  {/* Multiple image cycler indicator */}
+                  {images.length > 1 && (
+                    <button
+                      onClick={(e) => handleCycleImage(e, product.id, images.length)}
+                      className="absolute bottom-3 left-3 bg-black/75 hover:bg-black text-white px-2 py-1 rounded-md font-mono text-[10px] flex items-center gap-1 shadow-md transition-colors"
+                      title="Click to view alternate image angle"
+                    >
+                      <Layers className="w-3 h-3 text-[#ff1100]" />
+                      <span>{currentImgIndex + 1}/{images.length} Angles</span>
+                    </button>
+                  )}
 
                   {/* Look badge */}
                   <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-sm text-white px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-wider">
@@ -192,14 +220,14 @@ export default function ShopPage({ onAddToCart, onJumpToRunway, onOpenAiStylist 
                       </div>
                     </div>
 
-                    {/* Pricing & Add to Cart */}
+                    {/* Pricing in Indian Rupees & Add to Cart */}
                     <div className="flex items-center justify-between">
                       <div>
                         <span className="font-mono text-base font-bold text-neutral-900">
-                          ${product.price}
+                          ₹{product.price.toLocaleString('en-IN')}
                         </span>
                         <span className="font-mono text-xs text-neutral-400 line-through ml-2">
-                          ${product.originalPrice}
+                          ₹{product.originalPrice.toLocaleString('en-IN')}
                         </span>
                       </div>
 

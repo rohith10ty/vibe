@@ -55,7 +55,11 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onRemoveItem, o
                 className="flex gap-4 p-3 rounded-xl border border-neutral-200 bg-white hover:border-neutral-300 transition-colors"
               >
                 <div className="w-20 h-24 bg-neutral-100 rounded-lg overflow-hidden flex-shrink-0">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  <img
+                    src={item.images?.[0] || item.image}
+                    alt={item.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
@@ -84,7 +88,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onRemoveItem, o
                     </div>
                   </div>
                   <div className="font-mono text-xs font-bold text-neutral-900 mt-2">
-                    ${item.price}
+                    ₹{item.price.toLocaleString('en-IN')}
                   </div>
                 </div>
               </div>
@@ -98,14 +102,14 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onRemoveItem, o
             <div className="flex justify-between items-baseline font-mono text-xs">
               <span className="uppercase text-neutral-500">Subtotal:</span>
               <span className="font-sans text-xl font-bold text-neutral-900">
-                ${subtotal.toFixed(2)}
+                ₹{subtotal.toLocaleString('en-IN')}
               </span>
             </div>
             <p className="font-mono text-[10px] text-neutral-400 uppercase tracking-wider">
-              Free expedited shipping & atelier packaging included.
+              Free expedited shipping & atelier packaging included across India.
             </p>
             <button
-              onClick={() => alert('Proceeding to Checkout with your curated VIBE pieces!')}
+              onClick={() => alert(`Proceeding to Checkout with ₹${subtotal.toLocaleString('en-IN')} curated VIBE pieces!`)}
               className="w-full py-3.5 rounded-full bg-black text-white font-mono text-xs uppercase tracking-widest font-semibold flex items-center justify-center gap-2 hover:bg-[#ff1100] transition-colors shadow-lg active:scale-98"
             >
               <span>Proceed to Checkout</span>

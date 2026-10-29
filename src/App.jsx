@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import Lenis from 'lenis';
 import OrbitMenu from './components/OrbitMenu';
 import HeroLoader from './components/HeroLoader';
 import RunwaySection from './components/RunwaySection';
@@ -12,6 +13,34 @@ export default function App() {
   const [showHeader, setShowHeader] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const lenisRef = useRef(null);
+
+  // Initialize Lenis Smooth Scroll
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5,
+    });
+
+    lenisRef.current = lenis;
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    const rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
 
   const handleRevealHeader = useCallback(() => {
     setShowHeader(true);
@@ -34,9 +63,19 @@ export default function App() {
   };
 
   const scrollToSection = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+    const target = id.startsWith('#') ? id : `#${id}`;
+    if (lenisRef.current) {
+      if (target === '#' || target === '#home') {
+        lenisRef.current.scrollTo(0, { duration: 1.2 });
+      } else {
+        const el = document.querySelector(target);
+        if (el) {
+          lenisRef.current.scrollTo(el, { offset: 0, duration: 1.2 });
+        }
+      }
+    } else {
+      const el = document.querySelector(target);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -47,6 +86,7 @@ export default function App() {
         isVisible={showHeader}
         cartCount={cartItems.length}
         onOpenCart={() => setIsCartOpen(true)}
+        onNavigate={scrollToSection}
       />
 
       {/* Hero Loader with Custom Center Look */}
@@ -64,7 +104,7 @@ export default function App() {
           onOpenAiStylist={() => scrollToSection('ai-stylist')}
         />
 
-        {/* Dedicated H&M Shop Catalog Page */}
+        {/* Dedicated H&M Shop Catalog Page: Exactly 14 Products */}
         <ShopPage
           onAddToCart={handleAddToCart}
           onJumpToRunway={(lookId) => {

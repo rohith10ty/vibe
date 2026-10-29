@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
 
-export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart }) {
+export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart, onNavigate }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleRef = useRef(null);
   const menuRef = useRef(null);
@@ -13,10 +13,10 @@ export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart 
   const clipStateRef = useRef({ r: 0 });
 
   const navItems = [
-    { num: '01', main: 'HOME', alt: 'Home', tag: 'Atelier', href: '#' },
-    { num: '02', main: 'THE RUNWAY', alt: 'The Runway', tag: '3D Experience', href: '#runway' },
+    { num: '01', main: 'HOME', alt: 'Home', tag: 'Atelier // 01', href: '#' },
+    { num: '02', main: 'THE RUNWAY', alt: 'The Runway', tag: '3D Lookbook', href: '#runway' },
     { num: '03', main: 'AI STYLIST', alt: 'AI Stylist', tag: 'Neural Engine', href: '#ai-stylist' },
-    { num: '04', main: 'SHOP PIECES', alt: 'Shop Pieces', tag: 'H&M Catalogue', href: '#shop' },
+    { num: '04', main: 'SHOP PIECES', alt: 'Shop Pieces', tag: '14 H&M Items', href: '#shop' },
     { num: '05', main: 'ABOUT', alt: 'About', tag: 'The Atelier', href: '#footer' },
   ];
 
@@ -53,7 +53,7 @@ export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart 
     applyCircle(cx, cy, 0);
 
     const validLinks = linksRef.current.filter(Boolean);
-    gsap.set(validLinks, { y: 35, opacity: 0 });
+    gsap.set(validLinks, { y: 30, opacity: 0 });
 
     const tl = gsap.timeline({
       paused: true,
@@ -72,7 +72,7 @@ export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart 
       clipStateRef.current,
       {
         r: () => computeCircle().maxR,
-        duration: 0.95,
+        duration: 0.9,
       },
       0
     ).to(
@@ -80,11 +80,11 @@ export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart 
       {
         y: 0,
         opacity: 1,
-        duration: 0.5,
+        duration: 0.45,
         stagger: 0.05,
         ease: 'power3.out',
       },
-      0.45
+      0.4
     );
 
     timelineRef.current = tl;
@@ -132,34 +132,50 @@ export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart 
     }
   };
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (e, href) => {
+    e.preventDefault();
     if (isOpen) {
       toggleMenu();
+    }
+    if (onNavigate) {
+      onNavigate(href);
+    } else {
+      const targetId = href.replace('#', '');
+      if (!targetId) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
   return (
     <>
-      {/* Header bar with Brand on Left and Bag + Toggle on Right */}
+      {/* Header bar with Brand on Left and Bag + Gooey Toggle on Right */}
       <header
         className={`orbit-header transition-opacity duration-700 ${
           isVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
-        <a href="#" className="orbit-brand select-none">
+        <a
+          href="#"
+          onClick={(e) => handleLinkClick(e, '#')}
+          className="orbit-brand select-none hover:opacity-85 transition-opacity"
+        >
           VIBE<span>*</span>
         </a>
 
         {/* Right Action Icons: Shopping Bag + Gooey Toggle */}
-        <div className="flex items-center gap-4 pointer-events-auto ml-auto">
+        <div className="flex items-center gap-3 sm:gap-4 pointer-events-auto ml-auto">
           {/* Shopping Bag Button */}
           <button
             onClick={onOpenCart}
-            className="relative flex items-center justify-center w-12 h-12 rounded-full border border-neutral-300 hover:border-black bg-white/80 backdrop-blur-sm transition-all shadow-sm active:scale-95 text-neutral-800"
+            className="relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-neutral-300 hover:border-black bg-white/80 backdrop-blur-sm transition-all shadow-sm active:scale-95 text-neutral-800"
             title="Open Shopping Bag"
             aria-label="Open Shopping Bag"
           >
-            <ShoppingBag className="w-5 h-5" />
+            <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
             {cartCount > 0 && (
               <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#ff1100] text-white rounded-full text-[10px] font-mono font-bold flex items-center justify-center shadow-md">
                 {cartCount}
@@ -210,26 +226,49 @@ export default function OrbitMenu({ isVisible = true, cartCount = 0, onOpenCart 
               {navItems.map((item, idx) => (
                 <li
                   key={item.num}
-                  className="orbit-nav__item"
+                  className="orbit-nav__item overflow-hidden"
                   ref={(el) => {
                     linksRef.current[idx] = el;
                   }}
                 >
                   <a
                     href={item.href}
-                    onClick={handleLinkClick}
-                    className="orbit-nav__link group"
+                    onClick={(e) => handleLinkClick(e, item.href)}
+                    className="group flex items-center justify-between py-4 sm:py-5 px-3 transition-all duration-300 rounded-lg hover:bg-white/[0.04]"
                   >
-                    <span className="orbit-nav__num">{item.num}</span>
+                    {/* Left: Number + Morphing Text */}
+                    <div className="flex items-center gap-6 sm:gap-10">
+                      <span className="font-mono text-xs sm:text-sm tracking-widest text-neutral-500 group-hover:text-[#ff1100] transition-colors">
+                        {item.num}
+                      </span>
 
-                    <div className="orbit-nav__text-wrap">
-                      <span className="orbit-nav__text-default">{item.main}</span>
-                      <span className="orbit-nav__text-hover">{item.alt}</span>
+                      {/* Locked-height dual text container: NO CLIPPING, NO OVERLAP */}
+                      <div className="relative overflow-hidden h-9 sm:h-11 flex flex-col justify-start">
+                        <div className="transition-transform duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:-translate-y-1/2">
+                          {/* Default state: Clean Bold White Headline */}
+                          <div className="h-9 sm:h-11 flex items-center">
+                            <span className="font-sans font-bold text-2xl sm:text-3xl lg:text-4xl uppercase tracking-wider text-[#ecebe4] whitespace-nowrap">
+                              {item.main}
+                            </span>
+                          </div>
+                          {/* Hover state: Italic Crimson Red Serif */}
+                          <div className="h-9 sm:h-11 flex items-center">
+                            <span className="font-serif italic font-medium text-2xl sm:text-3xl lg:text-4xl text-[#ff1100] whitespace-nowrap">
+                              {item.alt}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="orbit-nav__tag">
-                      <span className="hidden sm:inline">{item.tag}</span>
-                      <ArrowRight className="w-4 h-4 text-[#ff1100]" />
+                    {/* Right: Category Tag + Arrow */}
+                    <div className="flex items-center gap-3 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                      <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-widest text-neutral-400">
+                        {item.tag}
+                      </span>
+                      <div className="w-8 h-8 rounded-full bg-[#ff1100] text-white flex items-center justify-center">
+                        <ArrowRight className="w-4 h-4" />
+                      </div>
                     </div>
                   </a>
                 </li>
