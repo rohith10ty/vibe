@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { ArrowDown, Sparkles } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 
 export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHeader }) {
   const containerRef = useRef(null);
@@ -23,7 +23,7 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
     onRevealHeaderRef.current = onRevealHeader;
   });
 
-  // 5 Complete Look images with the exact center photo requested
+  // 5 Complete Look images with shoes visible in all full photos
   const looks = [
     { id: 1, src: '/complete-look/e080282d3d188085e206f50c542d476977e9b066.avif', label: 'Look 01' },
     { id: 2, src: '/complete-look/516bc4ebb6d6db0d145049cb4a298ad610be13bd.avif', label: 'Look 02' },
@@ -67,9 +67,9 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
       const tileOffsetsX = [-80, -40, 0, 40, 80];
       const EASE = 'power3.inOut';
 
-      // Responsive feature target scale
+      // Feature target scale adjusted to keep shoes clearly visible in viewport
       const isMobile = window.innerWidth < 768;
-      const targetFeatureScale = isMobile ? 1.75 : 2.0;
+      const targetFeatureScale = isMobile ? 1.75 : 1.95;
 
       // Reset initial styles
       gsap.set(veil, {
@@ -77,7 +77,7 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
       });
 
       gsap.set(strip, {
-        gap: isMobile ? '3vw' : '10vw',
+        gap: isMobile ? '3vw' : '8vw',
       });
 
       gsap.set(tiles, {
@@ -178,11 +178,12 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
         2.5
       );
 
-      // 6. Feature image scales up
+      // 6. Feature image scales up and positions slightly upwards so shoes have clear breathing room
       tl.to(
         feature,
         {
           scale: targetFeatureScale,
+          y: isMobile ? '-2%' : '-4%',
           duration: 1,
           ease: EASE,
         },
@@ -204,7 +205,7 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
         4.5
       );
 
-      // Transition the center man's background away seamlessly as veil lifts
+      // Seamlessly dissolve background into transparent cutout so shoes and whole body show cleanly
       if (featureBase && featureCutout) {
         tl.to(
           featureBase,
@@ -235,7 +236,7 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
         );
       }
 
-      // 8. Title reveal ("FASHION")
+      // 8. Title reveal ("FASHION") - positioned slightly lower down
       if (words.length > 0) {
         tl.to(
           words,
@@ -260,7 +261,7 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
       {/* Dark overlay (Veil) that lifts up */}
       <div ref={veilRef} className="veil" />
 
-      {/* Image Strip */}
+      {/* Image Strip with full photos from head to shoes */}
       <div ref={stripRef} className="strip">
         {looks.map((item) => {
           if (item.isFeature) {
@@ -276,16 +277,16 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
                   src={item.src}
                   alt={item.label}
                   loading="eager"
-                  className="absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-300"
+                  className="absolute inset-0 w-full h-full object-cover object-bottom z-10 transition-opacity duration-300"
                 />
 
-                {/* 2. Transparent Cutout of the Man (revealed when hero unveils) */}
+                {/* 2. Transparent Cutout of the Man with Shoes (revealed when hero unveils) */}
                 <img
                   ref={featureCutoutRef}
                   src={item.cutoutSrc}
                   alt={`${item.label} cutout`}
                   loading="eager"
-                  className="absolute inset-0 w-full h-full object-cover z-20 pointer-events-none"
+                  className="absolute inset-0 w-full h-full object-cover object-bottom z-20 pointer-events-none"
                 />
               </figure>
             );
@@ -296,14 +297,14 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
                 src={item.src}
                 alt={item.label}
                 loading="eager"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-bottom"
               />
             </figure>
           );
         })}
       </div>
 
-      {/* Big Hero Title */}
+      {/* Big Hero Title ("FASHION" moved slightly lower down) */}
       <div className="hero-title-container">
         <h1>
           <span className="word-mask">
@@ -319,7 +320,7 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
         </h1>
       </div>
 
-      {/* Hero Bottom Bar (No border line, clean bottom-left text & bottom-right buttons) */}
+      {/* Hero Bottom Bar (Clean bottom-left text & button without star symbol) */}
       <div
         className={`absolute inset-0 z-40 pointer-events-none flex flex-col justify-end p-6 md:p-12 transition-opacity duration-1000 ${
           animationDone ? 'opacity-100' : 'opacity-0'
@@ -333,13 +334,12 @@ export default function HeroLoader({ replayKey, onAnimationComplete, onRevealHea
             </p>
           </div>
 
-          {/* Bottom Right Buttons */}
+          {/* Bottom Right Buttons (No star symbol in explore button) */}
           <div className="flex items-center gap-3">
             <a
               href="#ai-stylist"
-              className="group flex items-center gap-2 px-6 py-3.5 bg-[#ff1100] text-white font-mono text-xs uppercase tracking-widest rounded-full hover:bg-black transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95"
+              className="flex items-center justify-center px-6 py-3.5 bg-[#ff1100] text-white font-mono text-xs uppercase tracking-widest rounded-full hover:bg-black transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95"
             >
-              <Sparkles className="w-3.5 h-3.5 group-hover:rotate-12 transition-transform" />
               <span>Explore AI Recommendations</span>
             </a>
 

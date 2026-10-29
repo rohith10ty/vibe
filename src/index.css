@@ -62,7 +62,7 @@
 /* Image strip */
 .strip {
   position: absolute;
-  top: 50%;
+  top: 48%;
   left: 0;
   right: 0;
   z-index: 20;
@@ -71,16 +71,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10vw;
+  gap: 8vw;
   will-change: gap;
   pointer-events: none;
 }
 
 .tile {
-  width: 14vw;
-  max-width: 220px;
-  min-width: 110px;
-  aspect-ratio: 5 / 7;
+  width: 12vw;
+  max-width: 190px;
+  min-width: 95px;
+  aspect-ratio: 2 / 3;
   will-change: opacity, transform, clip-path;
   overflow: hidden;
   border-radius: 2px;
@@ -93,7 +93,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center bottom;
   display: block;
   user-select: none;
   pointer-events: none;
@@ -106,11 +106,11 @@
   border: none !important;
 }
 
-/* Red Title across center */
+/* Red Title across center - positioned slightly to the bottom as requested */
 .hero-title-container {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 57%;
   transform: translate(-50%, -50%);
   z-index: 30;
   white-space: nowrap;
@@ -147,11 +147,14 @@
     --pad: 1.5rem;
   }
   .strip {
-    gap: 4vw;
+    gap: 3.5vw;
   }
   .tile {
-    width: 18vw;
-    min-width: 90px;
+    width: 16vw;
+    min-width: 85px;
+  }
+  .hero-title-container {
+    top: 58%;
   }
 }
 
@@ -163,8 +166,11 @@
     gap: 2vw;
   }
   .tile {
-    width: 22vw;
-    min-width: 70px;
+    width: 20vw;
+    min-width: 65px;
+  }
+  .hero-title-container {
+    top: 59%;
   }
 }
 
