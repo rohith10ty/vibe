@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
+import { ArrowRight } from 'lucide-react';
 
 export default function OrbitMenu({ isVisible = true }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,11 +13,11 @@ export default function OrbitMenu({ isVisible = true }) {
   const clipStateRef = useRef({ r: 0 });
 
   const navItems = [
-    { num: '01', main: 'HOME', alt: 'Home', href: '#' },
-    { num: '02', main: 'AI STYLIST', alt: 'AI Stylist', href: '#ai-stylist' },
-    { num: '03', main: 'CATEGORIES', alt: 'Categories', href: '#categories' },
-    { num: '04', main: 'LOOKBOOK', alt: 'Lookbook', href: '#lookbook' },
-    { num: '05', main: 'ABOUT', alt: 'About', href: '#about' },
+    { num: '01', main: 'HOME', alt: 'Home', tag: 'Atelier', href: '#' },
+    { num: '02', main: 'AI STYLIST', alt: 'AI Stylist', tag: 'AI Engine', href: '#ai-stylist' },
+    { num: '03', main: 'CATEGORIES', alt: 'Categories', tag: 'Collections', href: '#categories' },
+    { num: '04', main: 'LOOKBOOK', alt: 'Lookbook', tag: 'Curated Outfits', href: '#lookbook' },
+    { num: '05', main: 'ABOUT', alt: 'About', tag: 'The Atelier', href: '#about' },
   ];
 
   const computeCircle = useCallback(() => {
@@ -202,9 +203,15 @@ export default function OrbitMenu({ isVisible = true }) {
                     className="orbit-nav__link group"
                   >
                     <span className="orbit-nav__num">{item.num}</span>
+
                     <div className="orbit-nav__text-wrap">
                       <span className="orbit-nav__text-default">{item.main}</span>
                       <span className="orbit-nav__text-hover">{item.alt}</span>
+                    </div>
+
+                    <div className="orbit-nav__tag">
+                      <span className="hidden sm:inline">{item.tag}</span>
+                      <ArrowRight className="w-4 h-4 text-[#ff1100]" />
                     </div>
                   </a>
                 </li>
@@ -212,7 +219,7 @@ export default function OrbitMenu({ isVisible = true }) {
             </ul>
           </nav>
 
-          <div className="border-t border-white/10 pt-6 px-4 flex justify-between text-xs font-mono text-neutral-400 max-w-3xl mx-auto w-full">
+          <div className="border-t border-white/10 pt-6 px-4 flex justify-between text-xs font-mono text-neutral-400 max-w-4xl mx-auto w-full">
             <span>AI FASHION COUTURE // SS26</span>
             <span>AUTONOMOUS STYLING ATELIER</span>
           </div>
