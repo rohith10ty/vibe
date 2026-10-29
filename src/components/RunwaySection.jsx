@@ -157,8 +157,8 @@ export default function RunwaySection({
         </div>
       </div>
 
-      {/* 3D Runway Stage: Models Scaled Up for Prominent Fashion Runway Presence */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto h-[430px] sm:h-[480px] md:h-[530px] lg:h-[560px] flex items-center justify-center my-auto">
+      {/* 3D Runway Stage: Balanced Proportions (Full model visible with breathing room, no top clipping) */}
+      <div className="relative z-20 w-full max-w-7xl mx-auto h-[340px] sm:h-[370px] md:h-[410px] lg:h-[440px] flex items-center justify-center my-auto">
         {/* Floating Left and Right Navigation Buttons */}
         <button
           onClick={(e) => {
@@ -166,7 +166,7 @@ export default function RunwaySection({
             e.stopPropagation();
             handlePrev();
           }}
-          className="absolute left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 z-50 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/95 hover:bg-black text-neutral-800 hover:text-white backdrop-blur-md border border-neutral-300 shadow-xl flex items-center justify-center transition-all duration-300 active:scale-90 group cursor-pointer pointer-events-auto"
+          className="absolute left-2 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 z-50 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 hover:bg-black text-neutral-800 hover:text-white backdrop-blur-md border border-neutral-300 shadow-xl flex items-center justify-center transition-all duration-300 active:scale-90 group cursor-pointer pointer-events-auto"
           aria-label="Previous Outfit"
           title="Previous Look (←)"
         >
@@ -179,7 +179,7 @@ export default function RunwaySection({
             e.stopPropagation();
             handleNext();
           }}
-          className="absolute right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 z-50 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/95 hover:bg-black text-neutral-800 hover:text-white backdrop-blur-md border border-neutral-300 shadow-xl flex items-center justify-center transition-all duration-300 active:scale-90 group cursor-pointer pointer-events-auto"
+          className="absolute right-2 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 z-50 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 hover:bg-black text-neutral-800 hover:text-white backdrop-blur-md border border-neutral-300 shadow-xl flex items-center justify-center transition-all duration-300 active:scale-90 group cursor-pointer pointer-events-auto"
           aria-label="Next Outfit"
           title="Next Look (→)"
         >
@@ -220,11 +220,11 @@ export default function RunwaySection({
                   opacity,
                   filter: `blur(${blur})`,
                 }}
-                className="absolute bottom-4 transition-all duration-700 ease-out flex flex-col items-center select-none pointer-events-none"
+                className="absolute bottom-2 transition-all duration-700 ease-out flex flex-col items-center select-none pointer-events-none"
               >
                 {/* Contact Floor Shadow under shoes */}
                 <div
-                  className="absolute -bottom-2 w-52 sm:w-64 md:w-76 h-8 rounded-full pointer-events-none transition-transform duration-500"
+                  className="absolute -bottom-2 w-44 sm:w-56 md:w-64 h-6 rounded-full pointer-events-none transition-transform duration-500"
                   style={{
                     background:
                       'radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.12) 50%, transparent 75%)',
@@ -232,8 +232,8 @@ export default function RunwaySection({
                   }}
                 />
 
-                {/* Model Cutout Image (Significantly enlarged for prominent fashion runway presence) */}
-                <div className="relative h-[390px] sm:h-[440px] md:h-[490px] lg:h-[520px] aspect-[2/3] flex items-end justify-center">
+                {/* Model Cutout Image (Perfected size: slightly bigger than original, fits fully on screen without clipping) */}
+                <div className="relative h-[320px] sm:h-[350px] md:h-[385px] lg:h-[415px] aspect-[2/3] flex items-end justify-center">
                   <img
                     src={look.cutoutImage}
                     alt={look.title}
